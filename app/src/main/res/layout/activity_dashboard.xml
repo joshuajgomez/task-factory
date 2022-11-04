@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -17,15 +18,12 @@
         android:background="@color/purple"
         app:layout_constraintBottom_toTopOf="@id/cl_control_panel"
         app:layout_constraintEnd_toStartOf="@+id/cl_worker_container"
-        app:layout_constraintHorizontal_weight="1.3"
+        app:layout_constraintHorizontal_weight="1.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="3">
 
-        <include
-            layout="@layout/layout_task"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-109dp" />
+        <include layout="@layout/layout_task" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -46,15 +44,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_weight="1">
 
-        <TextView
-            android:id="@+id/tv_workers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Workers"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <include layout="@layout/layout_worker" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
