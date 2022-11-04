@@ -11,6 +11,7 @@ import com.joshgm3z.taskfactory.model.room.entity.Worker
 
 @Database(entities = [Task::class, Worker::class], version = 1)
 abstract class TaskFactoryDb : RoomDatabase() {
+
     abstract fun taskDao(): TaskDao
     abstract fun workerDao(): WorkerDao
 

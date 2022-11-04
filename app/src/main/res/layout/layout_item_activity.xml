@@ -20,7 +20,7 @@
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Joshua completed <Make bed> in 10 seconds"
+        android:text="Joshua completed Make bed in 10 seconds"
         android:textColor="@color/white"
         android:textSize="11sp"
         app:layout_constraintStart_toStartOf="parent"
