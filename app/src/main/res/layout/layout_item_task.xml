@@ -5,7 +5,10 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="5dp"
     android:background="@color/gray1"
-    android:padding="5dp">
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp"
+    android:paddingRight="5dp"
+    android:paddingBottom="5dp">
 
     <TextView
         android:id="@+id/tv_task_name"
@@ -37,9 +40,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
-            android:textSize="12sp"
             android:text="In progress by Joshua"
-            android:textColor="@color/white" />
+            android:textColor="@color/white"
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -48,9 +51,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:textSize="10sp"
         android:text="5:32pm"
         android:textColor="@color/white"
+        android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_progress_container" />
 
@@ -60,16 +63,16 @@
         android:layout_marginEnd="3dp"
         android:src="@drawable/ic_clock"
         app:layout_constraintBottom_toBottomOf="@id/tv_duration"
-        app:layout_constraintTop_toTopOf="@id/tv_duration"
-        app:layout_constraintEnd_toStartOf="@+id/tv_duration" />
+        app:layout_constraintEnd_toStartOf="@+id/tv_duration"
+        app:layout_constraintTop_toTopOf="@id/tv_duration" />
 
     <TextView
         android:id="@+id/tv_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="10sp"
         android:text="0:05"
         android:textColor="@color/white"
+        android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
