@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.R
+import com.joshgm3z.taskfactory.common.utils.DateUtil
 import com.joshgm3z.taskfactory.model.room.entity.Task
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,7 +20,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun updateData(task: Task) {
         mTvTaskName.text = task.description
-        mTvTimeAdded.text = task.timeAdded.toString()
+        mTvTimeAdded.text = DateUtil.getPrettyDate(task.timeAdded)
         mTvTaskDuration.text = task.duration.toString()
         if (task.activeWorkerId != -1) {
             // task ongoing

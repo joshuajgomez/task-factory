@@ -5,14 +5,13 @@ import androidx.lifecycle.LiveData
 import com.joshgm3z.taskfactory.model.room.TaskFactoryDb
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
-import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val context: Context) {
 
     private fun getDb() = TaskFactoryDb.getInstance(context)
     private fun getCurrentTime() = System.currentTimeMillis()
 
-    fun addTask(description: String, duration: Long) =
+    fun addTask(description: String, duration: Int) =
         getDb().taskDao().insert(
             Task(description, getCurrentTime(), duration)
         )

@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 class Task(
     @ColumnInfo(name = "description") var description: String,
     @ColumnInfo(name = "time_added") var timeAdded: Long,
-    @ColumnInfo(name = "duration") var duration: Long
+    @ColumnInfo(name = "duration") var duration: Int
 ) {
 
     @PrimaryKey(autoGenerate = true)
