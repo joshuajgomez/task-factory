@@ -7,8 +7,10 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
+import com.joshgm3z.taskfactory.view.activityLog.ActivityLogAdapter
 import com.joshgm3z.taskfactory.view.task.TaskAdapter
 import com.joshgm3z.taskfactory.view.worker.WorkerAdapter
 import com.joshgm3z.taskfactory.viewmodel.DashboardViewModel
@@ -30,6 +32,10 @@ class DashboardActivity : AppCompatActivity() {
     private val mTvRecruitWorker: TextView by lazy {
         findViewById(R.id.tv_recruit_worker)
     }
+    private val mActivityLogAdapter: ActivityLogAdapter = ActivityLogAdapter()
+    private val mRvActivityLogList: RecyclerView by lazy {
+        findViewById(R.id.rv_activity_list)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,6 +55,9 @@ class DashboardActivity : AppCompatActivity() {
         mRvWorkerList.layoutManager = LinearLayoutManager(applicationContext)
         mRvWorkerList.adapter = mWorkerAdapter
         mTvRecruitWorker.setOnClickListener { mViewModel.addMockWorker() }
+
+        mRvActivityLogList.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, true)
+        mRvActivityLogList.adapter = mActivityLogAdapter
     }
 
     private fun initObservers() {
@@ -61,5 +70,10 @@ class DashboardActivity : AppCompatActivity() {
             mWorkerAdapter.updateWorkerList(it)
         }
         mViewModel.mWorkerList!!.observe(this, workerObserver)
+
+        val activityObserver = Observer<List<ActivityLog>> {
+            mActivityLogAdapter.updateActivityLogList(it)
+        }
+        mViewModel.mActivityLogList!!.observe(this, activityObserver)
     }
 }
