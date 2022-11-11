@@ -1,9 +1,11 @@
 package com.joshgm3z.taskfactory.model
 
 import android.content.Context
+import androidx.lifecycle.LiveData
 import com.joshgm3z.taskfactory.model.room.TaskFactoryDb
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
+import kotlinx.coroutines.flow.Flow
 
 class TaskRepository(private val context: Context) {
 
@@ -20,7 +22,7 @@ class TaskRepository(private val context: Context) {
             Worker(name)
         )
 
-    fun getAllTasks(): List<Task> = getDb().taskDao().getAll()
+    fun getAllTasks(): LiveData<List<Task>> = getDb().taskDao().getAll()
 
     fun getAllWorkers(): List<Worker> = getDb().workerDao().getAll()
 }

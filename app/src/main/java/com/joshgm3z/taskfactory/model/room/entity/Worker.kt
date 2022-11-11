@@ -5,15 +5,15 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class Worker(@ColumnInfo(name = "name") val name: String) {
+class Worker(@ColumnInfo(name = "name") var name: String) {
 
     @PrimaryKey(autoGenerate = true)
-    val id = 0
+    var id = 0
 
     @ColumnInfo(name = "job_count")
-    val jobCount = 0
+    var jobCount = 0
 
     @ColumnInfo(name = "status")
-    val status = 0
+    var status = 0
 
 }

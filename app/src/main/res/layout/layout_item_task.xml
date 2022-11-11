@@ -14,7 +14,7 @@
         android:id="@+id/tv_task_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Make bed"
+        android:text="Do something"
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,15 +32,17 @@
         app:layout_constraintTop_toBottomOf="@+id/tv_task_name">
 
         <ImageView
+            android:id="@+id/iv_status_icon"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_rotate" />
 
         <TextView
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="3dp"
-            android:text="In progress by Joshua"
+            android:text="In progress by Some dude"
             android:textColor="@color/white"
             android:textSize="12sp" />
 

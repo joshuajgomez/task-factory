@@ -6,20 +6,20 @@ import androidx.room.PrimaryKey
 
 @Entity
 class Task(
-    @ColumnInfo(name = "description") val description: String,
-    @ColumnInfo(name = "time_added") val timeAdded: Long,
-    @ColumnInfo(name = "duration") val duration: Long
+    @ColumnInfo(name = "description") var description: String,
+    @ColumnInfo(name = "time_added") var timeAdded: Long,
+    @ColumnInfo(name = "duration") var duration: Long
 ) {
 
     @PrimaryKey(autoGenerate = true)
-    val id = 0
+    var id = 0
 
     @ColumnInfo(name = "status")
-    val status = 0
+    var status = 0
 
     @ColumnInfo(name = "time_completed")
-    val timeCompleted: Long = 0
+    var timeCompleted: Long = 0
 
-    @ColumnInfo(name = "active_worker")
-    val activeWorker: Worker = TODO()
+    @ColumnInfo(name = "active_worker_id")
+    var activeWorkerId: Int = -1
 }
