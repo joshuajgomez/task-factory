@@ -20,6 +20,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_recruit_worker"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
@@ -34,7 +35,7 @@
         android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_worker_title"
-        android:id="@+id/rv_task_list"
+        android:id="@+id/rv_worker_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:listitem="@layout/layout_item_worker" />

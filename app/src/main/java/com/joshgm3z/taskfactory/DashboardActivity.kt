@@ -2,15 +2,15 @@ package com.joshgm3z.taskfactory
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.model.room.entity.Task
+import com.joshgm3z.taskfactory.model.room.entity.Worker
 import com.joshgm3z.taskfactory.view.task.TaskAdapter
+import com.joshgm3z.taskfactory.view.worker.WorkerAdapter
 import com.joshgm3z.taskfactory.viewmodel.DashboardViewModel
 
 class DashboardActivity : AppCompatActivity() {
@@ -23,13 +23,19 @@ class DashboardActivity : AppCompatActivity() {
     private val mTvAddTask: TextView by lazy {
         findViewById(R.id.tv_add_task)
     }
+    private val mWorkerAdapter: WorkerAdapter = WorkerAdapter()
+    private val mRvWorkerList: RecyclerView by lazy {
+        findViewById(R.id.rv_worker_list)
+    }
+    private val mTvRecruitWorker: TextView by lazy {
+        findViewById(R.id.tv_recruit_worker)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
         mViewModel.createRepository(applicationContext)
-//        mViewModel.addMockTask()
 
         initUI()
         initObservers()
@@ -38,8 +44,11 @@ class DashboardActivity : AppCompatActivity() {
     private fun initUI() {
         mRvTaskList.layoutManager = LinearLayoutManager(applicationContext)
         mRvTaskList.adapter = mTaskAdapter
+        mTvAddTask.setOnClickListener { mViewModel.addMockTask() }
 
-        mTvAddTask.setOnClickListener(View.OnClickListener { mViewModel.addMockTask() })
+        mRvWorkerList.layoutManager = LinearLayoutManager(applicationContext)
+        mRvWorkerList.adapter = mWorkerAdapter
+        mTvRecruitWorker.setOnClickListener { mViewModel.addMockWorker() }
     }
 
     private fun initObservers() {
@@ -47,5 +56,10 @@ class DashboardActivity : AppCompatActivity() {
             mTaskAdapter.updateTaskList(it)
         }
         mViewModel.mTaskList!!.observe(this, taskObserver)
+
+        val workerObserver = Observer<List<Worker>> {
+            mWorkerAdapter.updateWorkerList(it)
+        }
+        mViewModel.mWorkerList!!.observe(this, workerObserver)
     }
 }

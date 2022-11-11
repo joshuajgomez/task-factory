@@ -1,5 +1,6 @@
 package com.joshgm3z.taskfactory.model.room.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
@@ -16,5 +17,5 @@ interface WorkerDao {
     fun update(worker: Worker)
 
     @Query("select * from Worker")
-    fun getAll(): List<Worker>
+    fun getAll(): LiveData<List<Worker>>
 }

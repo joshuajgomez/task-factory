@@ -23,5 +23,5 @@ class TaskRepository(private val context: Context) {
 
     fun getAllTasks(): LiveData<List<Task>> = getDb().taskDao().getAll()
 
-    fun getAllWorkers(): List<Worker> = getDb().workerDao().getAll()
+    fun getAllWorkers(): LiveData<List<Worker>> = getDb().workerDao().getAll()
 }
