@@ -15,11 +15,17 @@ class Task(
     var id = 0
 
     @ColumnInfo(name = "status")
-    var status = 0
+    var status = STATUS_ADDED
 
     @ColumnInfo(name = "time_completed")
     var timeCompleted: Long = 0
 
     @ColumnInfo(name = "active_worker_id")
     var activeWorkerId: Int = -1
+
+    companion object{
+        const val STATUS_ADDED = 0
+        const val STATUS_ONGOING = 1
+        const val STATUS_FINISHED = 2
+    }
 }

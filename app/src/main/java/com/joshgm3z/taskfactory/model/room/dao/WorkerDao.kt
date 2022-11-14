@@ -18,4 +18,7 @@ interface WorkerDao {
 
     @Query("select * from Worker")
     fun getAll(): LiveData<List<Worker>>
+
+    @Query("update Worker set status=:status where id=:workerId")
+    fun updateStatus(workerId: Int, status: Int)
 }

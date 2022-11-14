@@ -14,6 +14,10 @@ class Worker(@ColumnInfo(name = "name") var name: String) {
     var jobCount = 0
 
     @ColumnInfo(name = "status")
-    var status = 0
+    var status = STATUS_IDLE
 
+    companion object{
+        const val STATUS_IDLE = 0
+        const val STATUS_BUSY = 1
+    }
 }

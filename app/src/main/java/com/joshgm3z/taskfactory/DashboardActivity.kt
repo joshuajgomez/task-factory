@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.joshgm3z.taskfactory.model.engine.TaskEngine
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
@@ -16,6 +17,8 @@ import com.joshgm3z.taskfactory.view.worker.WorkerAdapter
 import com.joshgm3z.taskfactory.viewmodel.DashboardViewModel
 
 class DashboardActivity : AppCompatActivity() {
+
+    private val mEngine: TaskEngine = TaskEngine()
 
     private val mViewModel: DashboardViewModel by viewModels()
     private val mTaskAdapter: TaskAdapter = TaskAdapter()
@@ -45,6 +48,8 @@ class DashboardActivity : AppCompatActivity() {
 
         initUI()
         initObservers()
+
+        TaskEngine().init()
     }
 
     private fun initUI() {
@@ -63,11 +68,13 @@ class DashboardActivity : AppCompatActivity() {
     private fun initObservers() {
         val taskObserver = Observer<List<Task>> {
             mTaskAdapter.updateTaskList(it)
+            mEngine.notifyOnTaskUpdate(it)
         }
         mViewModel.mTaskList!!.observe(this, taskObserver)
 
         val workerObserver = Observer<List<Worker>> {
             mWorkerAdapter.updateWorkerList(it)
+            mEngine.notifyOnWorkerUpdate(it)
         }
         mViewModel.mWorkerList!!.observe(this, workerObserver)
 

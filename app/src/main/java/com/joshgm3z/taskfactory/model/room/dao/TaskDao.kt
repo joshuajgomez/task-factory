@@ -19,4 +19,7 @@ interface TaskDao {
 
     @Query("select * from Task")
     fun getAll(): LiveData<List<Task>>
+
+    @Query("update Task set status=:status where id=:taskId")
+    fun updateStatus(taskId: Int, status: Int)
 }
