@@ -27,23 +27,11 @@ class TaskRepository(private val context: Context) {
             ActivityLog(description, getCurrentTime())
         )
 
-    suspend fun getAllTasks(): LiveData<List<Task>> = getDb().taskDao().getAll()
+    fun getAllTasks(): LiveData<List<Task>> = getDb().taskDao().getAll()
 
-    suspend fun getAllWorkers(): LiveData<List<Worker>> = getDb().workerDao().getAll()
+    fun getAllWorkers(): LiveData<List<Worker>> = getDb().workerDao().getAll()
 
-    suspend fun getActivityLog(): LiveData<List<ActivityLog>> = getDb().activityLogDao().getAll()
-
-    suspend fun updateTaskStatus(taskId: Int, status: Int, workerName: String) {
-        getDb().taskDao().updateStatus(taskId, status, workerName)
-    }
-
-    suspend fun updateWorkerStatus(workerId: Int, status: Int) {
-        getDb().workerDao().updateStatus(workerId, status)
-    }
-
-    suspend fun incrementWorkerJobCount(workerId: Int) {
-        getDb().workerDao().incrementJobCount(workerId)
-    }
+    fun getActivityLog(): LiveData<List<ActivityLog>> = getDb().activityLogDao().getAll()
 
     suspend fun clearWorkerList() {
         getDb().workerDao().clear()
@@ -57,7 +45,11 @@ class TaskRepository(private val context: Context) {
         getDb().activityLogDao().clear()
     }
 
-    suspend fun fetchData() {
+    suspend fun runTaskStartTransaction(taskId: Int, taskStatus: Int, workerId: Int, workerName: String, workerStatus: Int) {
+        getDb().taskDao().runTaskStartTransaction(taskId, taskStatus, workerId, workerName, workerStatus)
+    }
 
+    suspend fun runTaskFinishTransaction(taskId: Int, taskStatus: Int, workerId: Int, workerName: String, workerStatus: Int) {
+        getDb().taskDao().runTaskFinishTransaction(taskId, taskStatus, workerId, workerName, workerStatus)
     }
 }

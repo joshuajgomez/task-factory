@@ -30,23 +30,13 @@ class DashboardViewModel() : ViewModel() {
         }
     }
 
-    fun onDataFetch(
-        taskList: LiveData<List<Task>>?,
-        workerList: LiveData<List<Worker>>?,
-        activityLogList: LiveData<List<ActivityLog>>?
-    ) {
-        mTaskList = taskList
-        mWorkerList = workerList
-        mActivityLogList = activityLogList
-    }
-
     fun addMockTask() {
         Logger.entryLog()
         val description = RandomData.getTaskName()
         viewModelScope.launch {
             repo?.addTask(description, RandomData.getTaskDuration())
+            repo?.addActivityLog("New task added: $description")
         }
-        logActivity("New task added: $description")
     }
 
     fun addMockWorker() {
@@ -54,34 +44,36 @@ class DashboardViewModel() : ViewModel() {
         val name = RandomData.getWorkerName()
         viewModelScope.launch {
             repo?.addWorker(name)
-        }
-        logActivity("Worker recruited: $name")
-    }
-
-    private fun logActivity(description: String) {
-        Logger.log("description = [${description}]")
-        viewModelScope.launch {
-            repo?.addActivityLog(description)
+            repo?.addActivityLog("Worker recruited: $name")
         }
     }
 
     fun onTaskStart(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
         viewModelScope.launch {
-            repo!!.updateTaskStatus(activeTask.taskId, Task.STATUS_ONGOING, activeTask.workerName)
-            repo!!.updateWorkerStatus(activeTask.workerId, Worker.STATUS_BUSY)
+            repo!!.runTaskStartTransaction(
+                activeTask.taskId,
+                Task.STATUS_ONGOING,
+                activeTask.workerId,
+                activeTask.workerName,
+                Worker.STATUS_BUSY
+            )
+            repo?.addActivityLog("${activeTask.workerName} started working on ${activeTask.taskName}")
         }
-        logActivity("${activeTask.workerName} started working on ${activeTask.taskName}")
     }
 
     fun onTaskFinish(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
         viewModelScope.launch {
-            repo!!.updateTaskStatus(activeTask.taskId, Task.STATUS_FINISHED, activeTask.workerName)
-            repo!!.incrementWorkerJobCount(activeTask.workerId)
-            repo!!.updateWorkerStatus(activeTask.workerId, Worker.STATUS_IDLE)
+            repo!!.runTaskFinishTransaction(
+                activeTask.taskId,
+                Task.STATUS_FINISHED,
+                activeTask.workerId,
+                activeTask.workerName,
+                Worker.STATUS_IDLE
+            )
+            repo?.addActivityLog("${activeTask.workerName} finished ${activeTask.taskName}")
         }
-        logActivity("${activeTask.workerName} finished ${activeTask.taskName}")
     }
 
     fun clearWorkerList() {
