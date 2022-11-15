@@ -3,6 +3,7 @@ package com.joshgm3z.taskfactory.viewmodel
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.joshgm3z.taskfactory.common.utils.Logger
 import com.joshgm3z.taskfactory.common.utils.RandomData
 import com.joshgm3z.taskfactory.model.TaskRepository
@@ -10,8 +11,9 @@ import com.joshgm3z.taskfactory.model.engine.ActiveTask
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
+import kotlinx.coroutines.launch
 
-class DashboardViewModel() : ViewModel(){
+class DashboardViewModel() : ViewModel() {
 
     private var repo: TaskRepository? = null
 
@@ -21,56 +23,83 @@ class DashboardViewModel() : ViewModel(){
 
     fun createRepository(applicationContext: Context) {
         repo = TaskRepository(applicationContext)
-        mTaskList = repo!!.getAllTasks()
-        mWorkerList = repo!!.getAllWorkers()
-        mActivityLogList = repo!!.getActivityLog()
+        viewModelScope.launch {
+            mTaskList = repo!!.getAllTasks()
+            mWorkerList = repo!!.getAllWorkers()
+            mActivityLogList = repo!!.getActivityLog()
+        }
+    }
 
+    fun onDataFetch(
+        taskList: LiveData<List<Task>>?,
+        workerList: LiveData<List<Worker>>?,
+        activityLogList: LiveData<List<ActivityLog>>?
+    ) {
+        mTaskList = taskList
+        mWorkerList = workerList
+        mActivityLogList = activityLogList
     }
 
     fun addMockTask() {
         Logger.entryLog()
         val description = RandomData.getTaskName()
-        repo?.addTask(description, RandomData.getTaskDuration())
+        viewModelScope.launch {
+            repo?.addTask(description, RandomData.getTaskDuration())
+        }
         logActivity("New task added: $description")
     }
 
     fun addMockWorker() {
         Logger.entryLog()
         val name = RandomData.getWorkerName()
-        repo?.addWorker(name)
+        viewModelScope.launch {
+            repo?.addWorker(name)
+        }
         logActivity("Worker recruited: $name")
     }
 
-    private fun logActivity(description: String){
+    private fun logActivity(description: String) {
         Logger.log("description = [${description}]")
-        repo?.addActivityLog(description)
+        viewModelScope.launch {
+            repo?.addActivityLog(description)
+        }
     }
 
     fun onTaskStart(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
-        repo!!.updateTaskStatus(activeTask.taskId, Task.STATUS_ONGOING, activeTask.workerName)
-        repo!!.updateWorkerStatus(activeTask.workerId, Worker.STATUS_BUSY)
+        viewModelScope.launch {
+            repo!!.updateTaskStatus(activeTask.taskId, Task.STATUS_ONGOING, activeTask.workerName)
+            repo!!.updateWorkerStatus(activeTask.workerId, Worker.STATUS_BUSY)
+        }
         logActivity("${activeTask.workerName} started working on ${activeTask.taskName}")
     }
 
     fun onTaskFinish(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
-        repo!!.updateTaskStatus(activeTask.taskId, Task.STATUS_FINISHED, activeTask.workerName)
-        repo!!.incrementWorkerJobCount(activeTask.workerId)
-        repo!!.updateWorkerStatus(activeTask.workerId, Worker.STATUS_IDLE)
+        viewModelScope.launch {
+            repo!!.updateTaskStatus(activeTask.taskId, Task.STATUS_FINISHED, activeTask.workerName)
+            repo!!.incrementWorkerJobCount(activeTask.workerId)
+            repo!!.updateWorkerStatus(activeTask.workerId, Worker.STATUS_IDLE)
+        }
         logActivity("${activeTask.workerName} finished ${activeTask.taskName}")
     }
 
     fun clearWorkerList() {
-        repo!!.clearWorkerList()
+        viewModelScope.launch {
+            repo!!.clearWorkerList()
+        }
     }
 
     fun clearTaskList() {
-        repo!!.clearTaskList()
+        viewModelScope.launch {
+            repo!!.clearTaskList()
+        }
     }
 
     fun clearActivityLog() {
-        repo!!.clearActivityLog()
+        viewModelScope.launch {
+            repo!!.clearActivityLog()
+        }
     }
 
 }

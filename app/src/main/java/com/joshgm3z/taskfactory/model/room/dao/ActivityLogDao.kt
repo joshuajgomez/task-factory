@@ -12,11 +12,11 @@ import com.joshgm3z.taskfactory.model.room.entity.Worker
 interface ActivityLogDao {
 
     @Insert
-    fun insert(activity: ActivityLog)
+    suspend fun insert(activity: ActivityLog)
 
     @Query("select * from ActivityLog")
     fun getAll(): LiveData<List<ActivityLog>>
 
     @Query("delete from ActivityLog")
-    fun clear()
+    suspend fun clear()
 }

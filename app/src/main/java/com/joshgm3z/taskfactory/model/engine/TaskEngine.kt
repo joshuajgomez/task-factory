@@ -10,7 +10,7 @@ import java.util.concurrent.CopyOnWriteArrayList
 class TaskEngine(private val mCallback: TaskEngineCallback) {
 
     private val mMaxActiveJob = 3
-    private val mWorkingInterval: Long = 1000
+    private val mWorkingInterval: Long = 2000
     private val mWorkingTime: Long = 4000
     private val mActiveTaskList: CopyOnWriteArrayList<ActiveTask> = CopyOnWriteArrayList()
     private var mCurrentTasks: ArrayList<Task> = ArrayList()

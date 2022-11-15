@@ -28,7 +28,6 @@ abstract class TaskFactoryDb : RoomDatabase() {
                     context,
                     TaskFactoryDb::class.java, "task-factory-db"
                 ).fallbackToDestructiveMigration()
-                    .allowMainThreadQueries()
                     .build()
             return db as TaskFactoryDb
         }

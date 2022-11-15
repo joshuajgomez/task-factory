@@ -11,20 +11,20 @@ import com.joshgm3z.taskfactory.model.room.entity.Worker
 interface WorkerDao {
 
     @Insert
-    fun insert(worker: Worker)
+    suspend fun insert(worker: Worker)
 
     @Update
-    fun update(worker: Worker)
+    suspend fun update(worker: Worker)
 
     @Query("select * from Worker")
     fun getAll(): LiveData<List<Worker>>
 
     @Query("update Worker set status=:status where id=:workerId")
-    fun updateStatus(workerId: Int, status: Int)
+    suspend fun updateStatus(workerId: Int, status: Int)
 
     @Query("update Worker set job_count=job_count+1 where id=:workerId")
-    fun incrementJobCount(workerId: Int)
+    suspend fun incrementJobCount(workerId: Int)
 
     @Query("delete from Worker")
-    fun clear()
+    suspend fun clear()
 }
