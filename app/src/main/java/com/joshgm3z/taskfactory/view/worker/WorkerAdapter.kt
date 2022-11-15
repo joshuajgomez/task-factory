@@ -8,11 +8,16 @@ import com.joshgm3z.taskfactory.model.room.entity.Worker
 
 class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
 
-    private var mWorkerList: List<Worker>? = null
+    private var mWorkerList: ArrayList<Worker> = ArrayList()
 
     fun updateWorkerList(workerList: List<Worker>) {
-        mWorkerList = workerList
+        mWorkerList.clear()
+        mWorkerList.addAll(workerList)
         notifyDataSetChanged()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return mWorkerList[position].status
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WorkerViewHolder {
@@ -23,12 +28,11 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: WorkerViewHolder, position: Int) {
-        holder.updateData(mWorkerList!![position])
+        holder.updateData(mWorkerList[position])
     }
 
     override fun getItemCount(): Int {
-        return mWorkerList?.size ?: 0
+        return mWorkerList.size
     }
-
 
 }

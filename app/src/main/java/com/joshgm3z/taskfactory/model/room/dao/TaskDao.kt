@@ -6,7 +6,6 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
 import com.joshgm3z.taskfactory.model.room.entity.Task
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
@@ -20,6 +19,9 @@ interface TaskDao {
     @Query("select * from Task")
     fun getAll(): LiveData<List<Task>>
 
-    @Query("update Task set status=:status where id=:taskId")
-    fun updateStatus(taskId: Int, status: Int)
+    @Query("update Task set status=:status, active_worker_name=:workerName where id=:taskId")
+    fun updateStatus(taskId: Int, status: Int, workerName: String)
+
+    @Query("delete from Task")
+    fun clear()
 }

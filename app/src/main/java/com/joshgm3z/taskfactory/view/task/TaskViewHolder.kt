@@ -15,20 +15,32 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mTvTimeAdded: TextView = itemView.findViewById(R.id.tv_time)
     private val mTvTaskDuration: TextView = itemView.findViewById(R.id.tv_duration)
     private val mTvStatus: TextView = itemView.findViewById(R.id.tv_status)
-    private val mIvStatusIcon: ImageView = itemView.findViewById(R.id.iv_status_icon)
-    private val mLlProgressContainer: LinearLayout = itemView.findViewById(R.id.ll_progress_container)
+    private val mIvStatusIcon: ImageView = itemView.findViewById(R.id.iv_task_status)
+    private val mLlProgressContainer: LinearLayout =
+        itemView.findViewById(R.id.ll_progress_container)
 
     fun updateData(task: Task) {
         mTvTaskName.text = task.description
         mTvTimeAdded.text = DateUtil.getPrettyDate(task.timeAdded)
         mTvTaskDuration.text = task.duration.toString()
-        if (task.activeWorkerId != -1) {
-            // task ongoing
-            mLlProgressContainer.visibility = View.GONE
-        } else {
-            // inactive task
-            mLlProgressContainer.visibility = View.VISIBLE
-            mTvStatus.text = "In progress by " + task.activeWorkerId
+        when (task.status) {
+            Task.STATUS_ADDED -> {
+                // new task
+                mLlProgressContainer.visibility = View.GONE
+                mIvStatusIcon.setImageResource(R.drawable.ic_hour_glass)
+            }
+            Task.STATUS_ONGOING -> {
+                // ongoing task
+                mTvStatus.text = "In progress by " + task.activeWorkerName
+                mLlProgressContainer.visibility = View.VISIBLE
+                mIvStatusIcon.setImageResource(R.drawable.ic_rotate_blue)
+            }
+            Task.STATUS_FINISHED -> {
+                // finished task
+                mLlProgressContainer.visibility = View.GONE
+                mIvStatusIcon.setImageResource(R.drawable.ic_tick)
+            }
         }
+
     }
 }

@@ -12,7 +12,7 @@ import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
 
-@Database(entities = [Task::class, Worker::class, ActivityLog::class], version = 2)
+@Database(entities = [Task::class, Worker::class, ActivityLog::class], version = 3)
 abstract class TaskFactoryDb : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao

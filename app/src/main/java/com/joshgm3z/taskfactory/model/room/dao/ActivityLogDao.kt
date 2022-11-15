@@ -16,4 +16,7 @@ interface ActivityLogDao {
 
     @Query("select * from ActivityLog")
     fun getAll(): LiveData<List<ActivityLog>>
+
+    @Query("delete from ActivityLog")
+    fun clear()
 }

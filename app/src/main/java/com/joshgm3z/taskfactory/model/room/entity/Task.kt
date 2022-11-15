@@ -20,12 +20,20 @@ class Task(
     @ColumnInfo(name = "time_completed")
     var timeCompleted: Long = 0
 
-    @ColumnInfo(name = "active_worker_id")
-    var activeWorkerId: Int = -1
+    @ColumnInfo(name = "active_worker_name")
+    var activeWorkerName: String = ""
 
-    companion object{
+    companion object {
         const val STATUS_ADDED = 0
         const val STATUS_ONGOING = 1
         const val STATUS_FINISHED = 2
     }
+
+    override fun toString(): String {
+        return "Task(description='$description', timeAdded=$timeAdded, duration=$duration," +
+                " id=$id, status=$status, timeCompleted=$timeCompleted," +
+                " activeWorkerName=$activeWorkerName)"
+    }
+
+
 }

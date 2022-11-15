@@ -2,12 +2,16 @@ package com.joshgm3z.taskfactory
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.joshgm3z.taskfactory.model.engine.ActiveTask
 import com.joshgm3z.taskfactory.model.engine.TaskEngine
+import com.joshgm3z.taskfactory.model.engine.TaskEngineCallback
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
@@ -16,9 +20,9 @@ import com.joshgm3z.taskfactory.view.task.TaskAdapter
 import com.joshgm3z.taskfactory.view.worker.WorkerAdapter
 import com.joshgm3z.taskfactory.viewmodel.DashboardViewModel
 
-class DashboardActivity : AppCompatActivity() {
+class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
 
-    private val mEngine: TaskEngine = TaskEngine()
+    private val mEngine: TaskEngine = TaskEngine(this)
 
     private val mViewModel: DashboardViewModel by viewModels()
     private val mTaskAdapter: TaskAdapter = TaskAdapter()
@@ -39,6 +43,21 @@ class DashboardActivity : AppCompatActivity() {
     private val mRvActivityLogList: RecyclerView by lazy {
         findViewById(R.id.rv_activity_list)
     }
+    private val mTvTaskCount: TextView by lazy {
+        findViewById(R.id.tv_task_count)
+    }
+    private val mTvWorkerCount: TextView by lazy {
+        findViewById(R.id.tv_worker_count)
+    }
+    private val mIvTaskOptions: ImageView by lazy {
+        findViewById(R.id.iv_task_options)
+    }
+    private val mIvWorkerOptions: ImageView by lazy {
+        findViewById(R.id.iv_worker_options)
+    }
+    private val mIvActivityOptions: ImageView by lazy {
+        findViewById(R.id.iv_activity_options)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +68,6 @@ class DashboardActivity : AppCompatActivity() {
         initUI()
         initObservers()
 
-        TaskEngine().init()
     }
 
     private fun initUI() {
@@ -61,19 +79,26 @@ class DashboardActivity : AppCompatActivity() {
         mRvWorkerList.adapter = mWorkerAdapter
         mTvRecruitWorker.setOnClickListener { mViewModel.addMockWorker() }
 
-        mRvActivityLogList.layoutManager = LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, true)
+        mRvActivityLogList.layoutManager =
+            LinearLayoutManager(applicationContext, LinearLayoutManager.VERTICAL, true)
         mRvActivityLogList.adapter = mActivityLogAdapter
+
+        mIvWorkerOptions.setOnClickListener { mViewModel.clearWorkerList() }
+        mIvTaskOptions.setOnClickListener { mViewModel.clearTaskList() }
+        mIvActivityOptions.setOnClickListener { mViewModel.clearActivityLog() }
     }
 
     private fun initObservers() {
         val taskObserver = Observer<List<Task>> {
             mTaskAdapter.updateTaskList(it)
+            mTvTaskCount.text = "(${it.size})"
             mEngine.notifyOnTaskUpdate(it)
         }
         mViewModel.mTaskList!!.observe(this, taskObserver)
 
         val workerObserver = Observer<List<Worker>> {
             mWorkerAdapter.updateWorkerList(it)
+            mTvWorkerCount.text = "(${it.size})"
             mEngine.notifyOnWorkerUpdate(it)
         }
         mViewModel.mWorkerList!!.observe(this, workerObserver)
@@ -82,5 +107,13 @@ class DashboardActivity : AppCompatActivity() {
             mActivityLogAdapter.updateActivityLogList(it)
         }
         mViewModel.mActivityLogList!!.observe(this, activityObserver)
+    }
+
+    override fun onTaskStart(activeTask: ActiveTask) {
+        mViewModel.onTaskStart(activeTask)
+    }
+
+    override fun onTaskFinish(activeTask: ActiveTask) {
+        mViewModel.onTaskFinish(activeTask)
     }
 }

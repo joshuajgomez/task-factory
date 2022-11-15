@@ -20,6 +20,20 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
+        android:id="@+id/tv_task_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:text="(0)"
+        android:textColor="@color/white"
+        android:textSize="15sp"
+        app:layout_constraintStart_toEndOf="@id/tv_task_title"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_marginEnd="10dp"
         android:id="@+id/tv_add_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,17 +42,27 @@
         android:text="+ Add task"
         android:textColor="@color/blue"
         app:layout_constraintBottom_toBottomOf="@id/tv_task_title"
+        app:layout_constraintTop_toTopOf="@id/tv_task_title"
+        app:layout_constraintEnd_toStartOf="@id/iv_task_options" />
+
+    <ImageView
+        android:background="?android:attr/selectableItemBackgroundBorderless"
+        android:id="@+id/iv_task_options"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_delete_dark"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/tv_task_title"
         app:layout_constraintTop_toTopOf="@id/tv_task_title" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_marginTop="5dp"
         android:id="@+id/rv_task_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_task_title"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/layout_item_task" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

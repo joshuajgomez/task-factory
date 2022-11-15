@@ -21,4 +21,10 @@ interface WorkerDao {
 
     @Query("update Worker set status=:status where id=:workerId")
     fun updateStatus(workerId: Int, status: Int)
+
+    @Query("update Worker set job_count=job_count+1 where id=:workerId")
+    fun incrementJobCount(workerId: Int)
+
+    @Query("delete from Worker")
+    fun clear()
 }

@@ -33,11 +33,27 @@ class TaskRepository(private val context: Context) {
 
     fun getActivityLog(): LiveData<List<ActivityLog>> = getDb().activityLogDao().getAll()
 
-    fun updateTaskStatus(taskId: Int, status: Int) {
-        getDb().taskDao().updateStatus(taskId, status)
+    fun updateTaskStatus(taskId: Int, status: Int, workerName: String) {
+        getDb().taskDao().updateStatus(taskId, status, workerName)
     }
 
     fun updateWorkerStatus(workerId: Int, status: Int) {
         getDb().workerDao().updateStatus(workerId, status)
+    }
+
+    fun incrementWorkerJobCount(workerId: Int) {
+        getDb().workerDao().incrementJobCount(workerId)
+    }
+
+    fun clearWorkerList() {
+        getDb().workerDao().clear()
+    }
+
+    fun clearTaskList() {
+        getDb().taskDao().clear()
+    }
+
+    fun clearActivityLog() {
+        getDb().activityLogDao().clear()
     }
 }

@@ -12,4 +12,9 @@ class ActivityLog(@ColumnInfo(name = "description") var description: String,
     @PrimaryKey(autoGenerate = true)
     var id = 0
 
+    override fun toString(): String {
+        return "ActivityLog(description='$description', dateFinished=$dateFinished, id=$id)"
+    }
+
+
 }
