@@ -105,6 +105,7 @@ class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
 
         val activityObserver = Observer<List<ActivityLog>> {
             mActivityLogAdapter.updateActivityLogList(it)
+            if (it.isNotEmpty()) mRvActivityLogList.smoothScrollToPosition(it.size - 1)
         }
         mViewModel.mActivityLogList!!.observe(this, activityObserver)
     }
