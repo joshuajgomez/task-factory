@@ -9,8 +9,10 @@ import java.util.concurrent.CopyOnWriteArrayList
 
 class TaskEngine(private val mCallback: TaskEngineCallback) {
 
+    companion object {
+        const val WORKING_INTERVAL: Long = 1000
+    }
     private val mMaxActiveJob = 3
-    private val mWorkingInterval: Long = 2000
     private val mWorkingTime: Long = 4000
     private val mActiveTaskList: CopyOnWriteArrayList<ActiveTask> = CopyOnWriteArrayList()
     private var mCurrentTasks: ArrayList<Task> = ArrayList()
@@ -18,7 +20,7 @@ class TaskEngine(private val mCallback: TaskEngineCallback) {
 
     init {
         Logger.entryLog()
-        object : CountDownTimer(mWorkingTime, mWorkingInterval) {
+        object : CountDownTimer(mWorkingTime, WORKING_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 Logger.entryLog()
                 // work
