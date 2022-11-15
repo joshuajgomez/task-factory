@@ -27,12 +27,12 @@ class RandomData {
 
         fun getWorkerName(): String {
             val list: List<String> = listOf(
-                "Joshua",
-                "Sani",
+                "Blob",
+                "Barbera",
                 "Savu",
                 "Ruth",
                 "Tanya",
-                "Sandeep",
+                "Saran",
                 "Albin",
                 "Pinky",
                 "Sachin",

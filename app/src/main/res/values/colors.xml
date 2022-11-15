@@ -11,7 +11,8 @@
     <color name="blue">#69C0DC</color>
     <color name="purple">#8E52C3</color>
     <color name="red">#DC6464</color>
-    <color name="gray">#434343</color>
+    <color name="gray">#373737</color>
+    <color name="gray0">#434343</color>
     <color name="gray1">#505050</color>
     <color name="gray2">#919191</color>
 </resources>

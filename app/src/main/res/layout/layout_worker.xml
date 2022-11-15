@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray"
+    android:background="@color/gray0"
     android:padding="5dp">
 
     <TextView
@@ -55,6 +55,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_worker_title" />
 
     <androidx.recyclerview.widget.RecyclerView
+        android:visibility="visible"
         android:id="@+id/rv_worker_list"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -63,5 +64,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_worker_title"
         tools:listitem="@layout/layout_item_worker" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_empty_worker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray2"
+        android:text="No workers"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

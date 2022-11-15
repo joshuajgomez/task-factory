@@ -13,6 +13,7 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
     fun updateWorkerList(workerList: List<Worker>) {
         mWorkerList.clear()
         mWorkerList.addAll(workerList)
+        mWorkerList.sortByDescending { worker -> worker.status }
         notifyDataSetChanged()
     }
 
