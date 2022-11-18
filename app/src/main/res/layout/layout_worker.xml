@@ -23,7 +23,7 @@
         android:id="@+id/tv_worker_count"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="3dp"
+        android:layout_marginStart="1dp"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"
         android:text="(0)"

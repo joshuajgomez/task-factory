@@ -29,9 +29,17 @@ class Task(
         const val STATUS_FINISHED = 2
     }
 
+    private fun getStatusText(): String = when (status) {
+        STATUS_ADDED -> "ADDED"
+        STATUS_ONGOING -> "ONGOING"
+        STATUS_FINISHED -> "FINISHED"
+        else -> "UNKNOWN"
+    }
+
     override fun toString(): String {
-        return "Task(description='$description', timeAdded=$timeAdded, duration=$duration," +
-                " id=$id, status=$status, timeCompleted=$timeCompleted," +
+        return "Task(id=$id, status=${getStatusText()}, description='$description'," +
+                " timeAdded=$timeAdded, duration=$duration," +
+                " timeCompleted=$timeCompleted," +
                 " activeWorkerName=$activeWorkerName)"
     }
 

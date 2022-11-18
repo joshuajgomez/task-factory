@@ -12,6 +12,7 @@ class TaskEngine(private val mCallback: TaskEngineCallback) {
     companion object {
         const val WORKING_INTERVAL: Long = 1000
     }
+
     private val mMaxActiveJob = 3
     private val mWorkingTime: Long = 4000
     private val mActiveTaskList: CopyOnWriteArrayList<ActiveTask> = CopyOnWriteArrayList()
@@ -54,21 +55,8 @@ class TaskEngine(private val mCallback: TaskEngineCallback) {
         Logger.log("taskList=[$taskList]")
         mCurrentTasks.clear()
         mCurrentTasks.addAll(taskList!!.filter { task -> (task.status == Task.STATUS_ADDED) })
-        // get stranded tasks
-//        mCurrentTasks.addAll(getStrandedTasks(taskList))
         updateActiveTasks()
         Logger.log(Log.DEBUG, "mCurrentTasks=[$mCurrentTasks]")
-    }
-
-    private fun getStrandedTasks(taskList: List<Task>): List<Task> {
-        val activeTaskIdSet: HashSet<Int> = HashSet()
-        for (activeTask in mActiveTaskList)
-            activeTaskIdSet.add(activeTask.taskId)
-        taskList.filter { task: Task ->
-            task.status == Task.STATUS_ONGOING
-                    && !activeTaskIdSet.contains(task.id)
-        }
-        return taskList
     }
 
     fun notifyOnWorkerUpdate(workerList: List<Worker>?) {
@@ -92,6 +80,10 @@ class TaskEngine(private val mCallback: TaskEngineCallback) {
             val activeTask =
                 ActiveTask(task.id, worker.id, task.duration, task.description, worker.name)
             mActiveTaskList.add(activeTask)
+
+            // remove busy worker and task from list
+            mCurrentTasks.removeFirst()
+            mCurrentWorkers.removeFirst()
 
             // notify UI
             mCallback.onTaskStart(activeTask)

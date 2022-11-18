@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.R
+import com.joshgm3z.taskfactory.common.utils.Logger
 import com.joshgm3z.taskfactory.model.room.entity.Worker
 
 class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
@@ -11,6 +12,7 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
     private var mWorkerList: ArrayList<Worker> = ArrayList()
 
     fun updateWorkerList(workerList: List<Worker>) {
+        Logger.entryLog()
         mWorkerList.clear()
         mWorkerList.addAll(workerList)
         mWorkerList.sortByDescending { worker -> worker.status }
