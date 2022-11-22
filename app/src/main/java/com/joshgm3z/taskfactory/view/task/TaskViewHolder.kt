@@ -18,6 +18,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mTvTimeAdded: TextView = itemView.findViewById(R.id.tv_time)
     private val mTvTaskDuration: TextView = itemView.findViewById(R.id.tv_duration)
     private val mTvStatus: TextView = itemView.findViewById(R.id.tv_status)
+    private val mTvTypeTag: TextView = itemView.findViewById(R.id.tv_type_tag)
     private val mIvStatusIcon: ImageView = itemView.findViewById(R.id.iv_task_status)
     private val mLlProgressContainer: LinearLayout =
         itemView.findViewById(R.id.ll_progress_container)
@@ -26,6 +27,17 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         mTvTaskName.text = task.description
         mTvTimeAdded.text = DateUtil.getPrettyDate(task.timeAdded)
         mTvTaskDuration.text = task.duration.toString()
+        mTvTypeTag.text = task.getTypeText()
+        mTvTypeTag.setBackgroundResource(
+            when (task.type) {
+                Task.TYPE_COOKING -> R.color.yellow
+                Task.TYPE_CLEANING -> R.color.green
+                Task.TYPE_HELPING -> R.color.blue
+                Task.TYPE_MAINTENANCE -> R.color.red
+                Task.TYPE_BUSINESS -> R.color.purple
+                else -> R.color.white
+            }
+        )
         when (task.status) {
             Task.STATUS_ADDED -> {
                 // new task

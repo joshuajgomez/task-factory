@@ -11,7 +11,7 @@
         android:id="@+id/iv_status"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:src="@drawable/ic_rotate"
+        android:src="@drawable/ic_hour_glass"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -36,7 +36,7 @@
         android:layout_height="40dp"
         android:background="@color/red"
         android:gravity="center"
-        android:text="24"
+        android:text="4"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintRight_toRightOf="parent"

@@ -18,7 +18,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
-@Database(entities = [Task::class, Worker::class, ActivityLog::class], version = 3)
+@Database(entities = [Task::class, Worker::class, ActivityLog::class], version = 4)
 abstract class TaskFactoryDb : RoomDatabase() {
 
     abstract fun taskDao(): TaskDao

@@ -53,13 +53,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="5:32pm"
+        android:text="Nov 22, 5:32pm"
         android:textColor="@color/white"
         android:textSize="10sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ll_progress_container" />
 
+    <TextView
+        android:id="@+id/tv_type_tag"
+        android:layout_marginStart="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        android:paddingStart="3dp"
+        android:paddingEnd="3dp"
+        android:text="COOKING"
+        android:textColor="@color/black"
+        android:textSize="9sp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_time"
+        app:layout_constraintStart_toEndOf="@+id/tv_time"
+        app:layout_constraintTop_toTopOf="@id/tv_time" />
+
     <ImageView
+        android:id="@+id/tv_duration_icon"
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginEnd="3dp"
@@ -72,7 +88,7 @@
         android:id="@+id/tv_duration"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="0:05"
+        android:text="5"
         android:textColor="@color/white"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -83,7 +99,7 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginEnd="3dp"
-        android:src="@drawable/ic_tick"
+        android:src="@drawable/ic_check_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

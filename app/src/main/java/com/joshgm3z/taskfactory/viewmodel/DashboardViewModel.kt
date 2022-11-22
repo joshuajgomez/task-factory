@@ -34,10 +34,10 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
 
     fun addMockTask() {
         Logger.entryLog()
-        val description = RandomData.getTaskName()
         viewModelScope.launch {
-            repo.addTask(description, RandomData.getTaskDuration())
-            repo.addActivityLog("New task added: $description")
+            val task = RandomData.getTask()
+            repo.addTask(task)
+            repo.addActivityLog("New task added: ${task.description}")
         }
     }
 

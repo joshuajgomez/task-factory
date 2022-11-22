@@ -13,14 +13,12 @@ class TaskRepository @Inject constructor() {
 
     @Inject
     lateinit var db: TaskFactoryDb
-    
+
     private fun getCurrentTime() = System.currentTimeMillis()
 
-    suspend fun addTask(description: String, duration: Int) {
-        Logger.log(Log.DEBUG, "description = [${description}], duration = [${duration}]")
-        db.taskDao().insert(
-            Task(description, getCurrentTime(), duration)
-        )
+    suspend fun addTask(task: Task) {
+        Logger.log(Log.DEBUG, "task = [${task}]")
+        db.taskDao().insert(task)
     }
 
     suspend fun addWorker(name: String) {

@@ -17,7 +17,7 @@ class TaskAdapter @Inject constructor() : RecyclerView.Adapter<TaskViewHolder>()
         Logger.entryLog()
         mTaskList.clear()
         mTaskList.addAll(taskList)
-        mTaskList.sortBy { task: Task -> task.status }
+        mTaskList.sortBy { task: Task -> (task.status != Task.STATUS_ONGOING) }
         notifyDataSetChanged()
     }
 
