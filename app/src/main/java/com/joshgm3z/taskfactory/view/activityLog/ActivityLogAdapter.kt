@@ -7,13 +7,21 @@ import com.joshgm3z.taskfactory.R
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import javax.inject.Inject
 
-class ActivityLogAdapter @Inject constructor()  : RecyclerView.Adapter<ActivityLogViewHolder>() {
+class ActivityLogAdapter @Inject constructor() : RecyclerView.Adapter<ActivityLogViewHolder>() {
 
-    private var mActivityLogList: List<ActivityLog>? = null
+    private var mActivityLogList: ArrayList<ActivityLog> = ArrayList()
 
     fun updateActivityLogList(activityLogList: List<ActivityLog>) {
-        mActivityLogList = activityLogList
-        notifyDataSetChanged()
+        if (activityLogList.isEmpty()) {
+            mActivityLogList.clear()
+            notifyDataSetChanged()
+        } else if (mActivityLogList.isEmpty()) {
+            mActivityLogList.addAll(activityLogList)
+            notifyItemRangeInserted(0, mActivityLogList.size)
+        } else {
+            mActivityLogList.add(activityLogList.last())
+            notifyItemInserted(mActivityLogList.size - 1)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActivityLogViewHolder {
@@ -24,11 +32,11 @@ class ActivityLogAdapter @Inject constructor()  : RecyclerView.Adapter<ActivityL
     }
 
     override fun onBindViewHolder(holder: ActivityLogViewHolder, position: Int) {
-        holder.updateData(mActivityLogList!![position])
+        holder.updateData(mActivityLogList[position])
     }
 
     override fun getItemCount(): Int {
-        return mActivityLogList?.size ?: 0
+        return mActivityLogList.size
     }
 
 

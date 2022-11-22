@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.R
 import com.joshgm3z.taskfactory.common.utils.Logger
+import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
 import javax.inject.Inject
 
@@ -14,10 +15,19 @@ class WorkerAdapter @Inject constructor() : RecyclerView.Adapter<WorkerViewHolde
 
     fun updateWorkerList(workerList: List<Worker>) {
         Logger.entryLog()
-        mWorkerList.clear()
-        mWorkerList.addAll(workerList)
-        mWorkerList.sortByDescending { worker -> worker.status }
-        notifyDataSetChanged()
+        if (workerList.isEmpty()) {
+            mWorkerList.clear()
+            notifyDataSetChanged()
+        } else if (mWorkerList.isEmpty()) {
+            mWorkerList.addAll(workerList)
+            notifyItemRangeInserted(0, mWorkerList.size)
+        } else if (mWorkerList.size != workerList.size) {
+            mWorkerList.add(workerList.last())
+            notifyItemInserted(mWorkerList.size - 1)
+        } else {
+            // ignore update. no change in list
+        }
+//        mWorkerList.sortByDescending { worker -> worker.status }
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -37,6 +47,17 @@ class WorkerAdapter @Inject constructor() : RecyclerView.Adapter<WorkerViewHolde
 
     override fun getItemCount(): Int {
         return mWorkerList.size
+    }
+
+    fun notifyStatusChange(worker: Worker) {
+        var indexOf = -1
+        mWorkerList.forEachIndexed { index, _worker -> if (worker.id == _worker.id) indexOf = index }
+        Logger.log(
+            "worker.id = [${worker.id}], worker.name = [${worker.name}], " +
+                    "worker.status = [${worker.getStatusText()}], indexOf = [${indexOf}]"
+        )
+        mWorkerList[indexOf] = worker
+        notifyItemChanged(indexOf)
     }
 
 }

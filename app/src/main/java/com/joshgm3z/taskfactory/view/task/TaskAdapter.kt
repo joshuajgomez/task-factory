@@ -15,14 +15,19 @@ class TaskAdapter @Inject constructor() : RecyclerView.Adapter<TaskViewHolder>()
 
     fun updateTaskList(taskList: List<Task>) {
         Logger.entryLog()
-        if (taskList.size == mTaskList.size) {
-            // ignore. no change in list size
-        } else {
+        if (taskList.isEmpty()) {
             mTaskList.clear()
-            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_ONGOING })
-            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_ADDED })
-            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_FINISHED })
             notifyDataSetChanged()
+        } else if (mTaskList.isEmpty()) {
+            mTaskList.addAll(taskList)
+            notifyItemRangeInserted(0, mTaskList.size)
+        } else if (mTaskList.size != taskList.size) {
+            mTaskList.add(taskList.last())
+            notifyItemInserted(mTaskList.size - 1)
+//            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_ONGOING })
+//            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_ADDED })
+//            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_FINISHED })
+//            notifyDataSetChanged()
         }
     }
 
