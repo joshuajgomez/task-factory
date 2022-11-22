@@ -1,15 +1,13 @@
 package com.joshgm3z.taskfactory.view.task
 
-import android.os.CountDownTimer
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.R
 import com.joshgm3z.taskfactory.common.utils.DateUtil
-import com.joshgm3z.taskfactory.common.utils.Logger
-import com.joshgm3z.taskfactory.model.engine.TaskEngine
 import com.joshgm3z.taskfactory.model.room.entity.Task
 
 class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -20,6 +18,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val mTvStatus: TextView = itemView.findViewById(R.id.tv_status)
     private val mTvTypeTag: TextView = itemView.findViewById(R.id.tv_type_tag)
     private val mIvStatusIcon: ImageView = itemView.findViewById(R.id.iv_task_status)
+    private val mPbStatusIcon: ProgressBar = itemView.findViewById(R.id.pb_task_progress)
     private val mLlProgressContainer: LinearLayout =
         itemView.findViewById(R.id.ll_progress_container)
 
@@ -42,6 +41,8 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             Task.STATUS_ADDED -> {
                 // new task
                 mLlProgressContainer.visibility = View.GONE
+                mPbStatusIcon.visibility = View.GONE
+                mIvStatusIcon.visibility = View.VISIBLE
                 mIvStatusIcon.setImageResource(R.drawable.ic_hour_glass)
             }
             Task.STATUS_ONGOING -> {
@@ -49,27 +50,19 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 mTvStatus.text = "In progress by " + task.activeWorkerName
                 mLlProgressContainer.visibility = View.VISIBLE
                 mIvStatusIcon.setImageResource(R.drawable.ic_rotate_blue)
+                mPbStatusIcon.visibility = View.VISIBLE
+                mIvStatusIcon.visibility = View.GONE
 //                startDurationCountDown(task.duration)
             }
             Task.STATUS_FINISHED -> {
                 // finished task
+                mPbStatusIcon.visibility = View.GONE
+                mIvStatusIcon.visibility = View.VISIBLE
                 mLlProgressContainer.visibility = View.GONE
                 mIvStatusIcon.setImageResource(R.drawable.ic_tick)
                 mTvTaskDuration.text = task.duration.toString()
             }
         }
 
-    }
-
-    private fun startDurationCountDown(duration: Int) {
-        object : CountDownTimer((duration * 1000).toLong(), TaskEngine.WORKING_INTERVAL) {
-            override fun onTick(millisUntilFinished: Long) {
-                mTvTaskDuration.text = (millisUntilFinished / 1000).toString()
-            }
-
-            override fun onFinish() {
-                // do nothing
-            }
-        }.start()
     }
 }

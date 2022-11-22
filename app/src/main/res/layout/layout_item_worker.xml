@@ -7,7 +7,18 @@
     android:background="@color/gray1"
     android:paddingLeft="5dp">
 
+    <ProgressBar
+        android:visibility="gone"
+        android:id="@+id/pb_worker_progress"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_check_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <ImageView
+        android:visibility="visible"
         android:id="@+id/iv_status"
         android:layout_width="20dp"
         android:layout_height="20dp"

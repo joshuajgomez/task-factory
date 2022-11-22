@@ -95,6 +95,7 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <ImageView
+        android:visibility="gone"
         android:id="@+id/iv_task_status"
         android:layout_width="15dp"
         android:layout_height="15dp"
@@ -102,5 +103,14 @@
         android:src="@drawable/ic_check_dark"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/pb_task_progress"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginEnd="3dp"
+        android:src="@drawable/ic_check_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
