@@ -37,7 +37,7 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 mTvStatus.text = "In progress by " + task.activeWorkerName
                 mLlProgressContainer.visibility = View.VISIBLE
                 mIvStatusIcon.setImageResource(R.drawable.ic_rotate_blue)
-                startDurationCountDown(task.duration)
+//                startDurationCountDown(task.duration)
             }
             Task.STATUS_FINISHED -> {
                 // finished task

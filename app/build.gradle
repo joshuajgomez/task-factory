@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -52,8 +53,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
     implementation 'androidx.fragment:fragment-ktx:1.6.0-alpha03'
 
-
-    // gson
-    implementation 'com.google.code.gson:gson:2.8.6'
-
+    def hilt_version = "2.44"
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
 }

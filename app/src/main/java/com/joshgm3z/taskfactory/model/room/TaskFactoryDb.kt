@@ -5,12 +5,18 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.joshgm3z.taskfactory.model.TaskRepository
 import com.joshgm3z.taskfactory.model.room.dao.ActivityLogDao
 import com.joshgm3z.taskfactory.model.room.dao.TaskDao
 import com.joshgm3z.taskfactory.model.room.dao.WorkerDao
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 
 @Database(entities = [Task::class, Worker::class, ActivityLog::class], version = 3)
 abstract class TaskFactoryDb : RoomDatabase() {
@@ -19,18 +25,4 @@ abstract class TaskFactoryDb : RoomDatabase() {
     abstract fun workerDao(): WorkerDao
     abstract fun activityLogDao(): ActivityLogDao
 
-    companion object {
-        private var db: TaskFactoryDb? = null
-
-        fun getInstance(context: Context): TaskFactoryDb {
-            if (db == null)
-                db = Room.databaseBuilder(
-                    context,
-                    TaskFactoryDb::class.java, "task-factory-db"
-                ).fallbackToDestructiveMigration()
-                    .build()
-            return db as TaskFactoryDb
-        }
-
-    }
 }

@@ -19,27 +19,33 @@ import com.joshgm3z.taskfactory.view.activityLog.ActivityLogAdapter
 import com.joshgm3z.taskfactory.view.task.TaskAdapter
 import com.joshgm3z.taskfactory.view.worker.WorkerAdapter
 import com.joshgm3z.taskfactory.viewmodel.DashboardViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
-class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
+@AndroidEntryPoint
+class DashboardActivity: AppCompatActivity(), TaskEngineCallback {
 
     private val mEngine: TaskEngine = TaskEngine(this)
 
     private val mViewModel: DashboardViewModel by viewModels()
-    private val mTaskAdapter: TaskAdapter = TaskAdapter()
+
+    @Inject lateinit var mTaskAdapter: TaskAdapter
+    @Inject lateinit  var mWorkerAdapter: WorkerAdapter
+    @Inject lateinit  var mActivityLogAdapter: ActivityLogAdapter
+
     private val mRvTaskList: RecyclerView by lazy {
         findViewById(R.id.rv_task_list)
     }
     private val mTvAddTask: TextView by lazy {
         findViewById(R.id.tv_add_task)
     }
-    private val mWorkerAdapter: WorkerAdapter = WorkerAdapter()
     private val mRvWorkerList: RecyclerView by lazy {
         findViewById(R.id.rv_worker_list)
     }
     private val mTvRecruitWorker: TextView by lazy {
         findViewById(R.id.tv_recruit_worker)
     }
-    private val mActivityLogAdapter: ActivityLogAdapter = ActivityLogAdapter()
+
     private val mRvActivityLogList: RecyclerView by lazy {
         findViewById(R.id.rv_activity_list)
     }
@@ -72,7 +78,7 @@ class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        mViewModel.createRepository(applicationContext)
+        mViewModel.createRepository()
 
         initUI()
         initObservers()
