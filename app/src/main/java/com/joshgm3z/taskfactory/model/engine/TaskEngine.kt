@@ -43,6 +43,9 @@ class TaskEngine(private val mCallback: TaskEngineCallback) {
                 activeTask.timeLeft--
                 if (activeTask.timeLeft == 0) {
                     mActiveTaskList.remove(activeTask)
+
+                    activeTask.task.status = Task.STATUS_FINISHED
+                    activeTask.worker.status = Worker.STATUS_IDLE
                     mCallback.onTaskFinish(activeTask)
 
                     updateActiveTasks()
@@ -76,8 +79,12 @@ class TaskEngine(private val mCallback: TaskEngineCallback) {
             && mCurrentWorkers.isNotEmpty()
         ) {
 
-            val task = mCurrentTasks.first()
             val worker = mCurrentWorkers.first()
+            worker.status = Worker.STATUS_BUSY
+            val task = mCurrentTasks.first()
+            task.status = Task.STATUS_ONGOING
+            task.activeWorkerName = worker.name
+
             val activeTask = ActiveTask(task, worker, task.duration)
             mActiveTaskList.add(activeTask)
 

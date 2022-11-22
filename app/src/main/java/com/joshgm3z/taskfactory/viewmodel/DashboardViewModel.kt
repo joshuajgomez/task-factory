@@ -53,8 +53,6 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
     fun onTaskStart(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
         viewModelScope.launch {
-            activeTask.task.status = Task.STATUS_ONGOING
-            activeTask.worker.status = Worker.STATUS_BUSY
             repo.runTaskStartTransaction(
                 activeTask.task,
                 activeTask.worker,
@@ -66,8 +64,6 @@ class DashboardViewModel @Inject constructor() : ViewModel() {
     fun onTaskFinish(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
         viewModelScope.launch {
-            activeTask.task.status = Task.STATUS_FINISHED
-            activeTask.worker.status = Worker.STATUS_IDLE
             repo.runTaskFinishTransaction(
                 activeTask.task,
                 activeTask.worker,

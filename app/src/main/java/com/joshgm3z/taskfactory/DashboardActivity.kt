@@ -23,15 +23,18 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DashboardActivity: AppCompatActivity(), TaskEngineCallback {
+class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
 
     private val mEngine: TaskEngine = TaskEngine(this)
 
     private val mViewModel: DashboardViewModel by viewModels()
 
-    @Inject lateinit var mTaskAdapter: TaskAdapter
-    @Inject lateinit  var mWorkerAdapter: WorkerAdapter
-    @Inject lateinit  var mActivityLogAdapter: ActivityLogAdapter
+    @Inject
+    lateinit var mTaskAdapter: TaskAdapter
+    @Inject
+    lateinit var mWorkerAdapter: WorkerAdapter
+    @Inject
+    lateinit var mActivityLogAdapter: ActivityLogAdapter
 
     private val mRvTaskList: RecyclerView by lazy {
         findViewById(R.id.rv_task_list)
@@ -150,9 +153,11 @@ class DashboardActivity: AppCompatActivity(), TaskEngineCallback {
 
     override fun onTaskStart(activeTask: ActiveTask) {
         mViewModel.onTaskStart(activeTask)
+        mTaskAdapter.notifyStatusChange(activeTask.task)
     }
 
     override fun onTaskFinish(activeTask: ActiveTask) {
         mViewModel.onTaskFinish(activeTask)
+        mTaskAdapter.notifyStatusChange(activeTask.task)
     }
 }
