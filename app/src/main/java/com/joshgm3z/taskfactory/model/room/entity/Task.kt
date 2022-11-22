@@ -37,7 +37,7 @@ class Task(
         const val TYPE_ERRAND = 5
     }
 
-    private fun getStatusText(): String = when (status) {
+    fun getStatusText(): String = when (status) {
         STATUS_ADDED -> "ADDED"
         STATUS_ONGOING -> "ONGOING"
         STATUS_FINISHED -> "FINISHED"

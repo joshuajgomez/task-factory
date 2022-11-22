@@ -17,11 +17,13 @@ class Worker(@ColumnInfo(name = "name") var name: String) {
     var status = STATUS_IDLE
 
     companion object {
+
         const val STATUS_IDLE = 0
         const val STATUS_BUSY = 1
+
     }
 
-    private fun getStatusText(): String = when (status) {
+    fun getStatusText(): String = when (status) {
         STATUS_IDLE -> "IDLE"
         STATUS_BUSY -> "BUSY"
         else -> "UNKNOWN"
@@ -30,6 +32,5 @@ class Worker(@ColumnInfo(name = "name") var name: String) {
     override fun toString(): String {
         return "Worker(id=$id, name='$name', status=${getStatusText()}, jobCount=$jobCount)"
     }
-
 
 }

@@ -3,6 +3,7 @@ package com.joshgm3z.taskfactory.model.room.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.joshgm3z.taskfactory.model.room.entity.Task
+import com.joshgm3z.taskfactory.model.room.entity.Worker
 
 @Dao
 interface TaskDao {
@@ -29,27 +30,15 @@ interface TaskDao {
     suspend fun incrementWorkerJobCount(workerId: Int)
 
     @Transaction
-    suspend fun runTaskStartTransaction(
-        taskId: Int,
-        taskStatus: Int,
-        workerId: Int,
-        workerName: String,
-        workerStatus: Int
-    ) {
-        updateTaskStatus(taskId, taskStatus, workerName)
-        updateWorkerStatus(workerId, workerStatus)
+    suspend fun runTaskStartTransaction(task: Task, worker: Worker) {
+        updateTaskStatus(task.id, task.status, worker.name)
+        updateWorkerStatus(worker.id, worker.status)
     }
 
     @Transaction
-    suspend fun runTaskFinishTransaction(
-        taskId: Int,
-        taskStatus: Int,
-        workerId: Int,
-        workerName: String,
-        workerStatus: Int
-    ) {
-        updateTaskStatus(taskId, taskStatus, workerName)
-        incrementWorkerJobCount(workerId)
-        updateWorkerStatus(workerId, workerStatus)
+    suspend fun runTaskFinishTransaction(task: Task, worker: Worker) {
+        updateTaskStatus(task.id, task.status, worker.name)
+        incrementWorkerJobCount(worker.id)
+        updateWorkerStatus(worker.id, worker.status)
     }
 }

@@ -78,8 +78,7 @@ class TaskEngine(private val mCallback: TaskEngineCallback) {
 
             val task = mCurrentTasks.first()
             val worker = mCurrentWorkers.first()
-            val activeTask =
-                ActiveTask(task.id, worker.id, task.duration, task.description, worker.name)
+            val activeTask = ActiveTask(task, worker, task.duration)
             mActiveTaskList.add(activeTask)
 
             // remove busy worker and task from list

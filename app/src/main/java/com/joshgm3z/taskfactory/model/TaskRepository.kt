@@ -65,35 +65,23 @@ class TaskRepository @Inject constructor() {
         db.activityLogDao().clear()
     }
 
-    suspend fun runTaskStartTransaction(
-        taskId: Int,
-        taskStatus: Int,
-        workerId: Int,
-        workerName: String,
-        workerStatus: Int
-    ) {
+    suspend fun runTaskStartTransaction(task: Task, worker: Worker) {
         Logger.log(
             Log.DEBUG,
-            "taskId = [${taskId}], taskStatus = [${taskStatus}], workerId = [${workerId}],"
-                    + " workerName = [${workerName}], workerStatus = [${workerStatus}]"
+            "task.is = [${task.id}], task.status = [${task.getStatusText()}], worker.id = [${worker.id}],"
+                    + " worker.name = [${worker.name}], worker.status = [${worker.getStatusText()}]"
         )
         db.taskDao()
-            .runTaskStartTransaction(taskId, taskStatus, workerId, workerName, workerStatus)
+            .runTaskStartTransaction(task, worker)
     }
 
-    suspend fun runTaskFinishTransaction(
-        taskId: Int,
-        taskStatus: Int,
-        workerId: Int,
-        workerName: String,
-        workerStatus: Int
-    ) {
+    suspend fun runTaskFinishTransaction(task: Task, worker: Worker) {
         Logger.log(
             Log.DEBUG,
-            "taskId = [${taskId}], taskStatus = [${taskStatus}], workerId = [${workerId}],"
-                    + " workerName = [${workerName}], workerStatus = [${workerStatus}]"
+            "task.id = [${task.id}], task.status = [${task.getStatusText()}], worker.id = [${worker.id}],"
+                    + " worker.name = [${worker.name}], worker.status = [${worker.getStatusText()}]"
         )
         db.taskDao()
-            .runTaskFinishTransaction(taskId, taskStatus, workerId, workerName, workerStatus)
+            .runTaskFinishTransaction(task, worker)
     }
 }
