@@ -1,10 +1,7 @@
 package com.joshgm3z.taskfactory.model.koin
 
 import androidx.room.Room
-import com.joshgm3z.taskfactory.DashboardActivity
 import com.joshgm3z.taskfactory.model.TaskRepository
-import com.joshgm3z.taskfactory.model.engine.TaskEngine
-import com.joshgm3z.taskfactory.model.engine.TaskEngineCallback
 import com.joshgm3z.taskfactory.model.room.TaskFactoryDb
 import com.joshgm3z.taskfactory.view.activityLog.ActivityLogAdapter
 import com.joshgm3z.taskfactory.view.task.TaskAdapter
