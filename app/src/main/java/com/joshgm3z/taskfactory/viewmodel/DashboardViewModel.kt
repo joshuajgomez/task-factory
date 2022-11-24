@@ -17,10 +17,12 @@ class DashboardViewModel(
 ) : ViewModel() {
 
     var mTaskList: LiveData<List<Task>>? = null
+
     var mWorkerList: LiveData<List<Worker>>? = null
+
     var mActivityLogList: LiveData<List<ActivityLog>>? = null
 
-    fun createRepository() {
+    init {
         viewModelScope.launch {
             mTaskList = repo.getAllTasks()
             mWorkerList = repo.getAllWorkers()
