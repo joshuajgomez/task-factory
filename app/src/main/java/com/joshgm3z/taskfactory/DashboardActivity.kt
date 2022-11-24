@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,7 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
 
-    private val mEngine: TaskEngine = TaskEngine(this)
+    private val mEngine = TaskEngine(this)
 
     private val mViewModel by viewModel<DashboardViewModel>()
 
@@ -78,8 +77,6 @@ class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
-
-        mViewModel.createRepository()
 
         initUI()
         initObservers()
