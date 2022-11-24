@@ -20,12 +20,29 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
             mWorkerList.addAll(workerList)
             notifyItemRangeInserted(0, mWorkerList.size)
         } else if (mWorkerList.size != workerList.size) {
-            mWorkerList.add(workerList.last())
-            notifyItemInserted(mWorkerList.size - 1)
+            var indexOf = mWorkerList.indexOfFirst { it.status == Worker.STATUS_BUSY }
+            if (indexOf != -1)
+                indexOf++
+            else
+                indexOf = mWorkerList.size
+            mWorkerList.add(indexOf, workerList.last())
+            notifyItemInserted(indexOf)
         } else {
             // ignore update. no change in list
         }
-//        mWorkerList.sortByDescending { worker -> worker.status }
+    }
+
+    fun notifyStatusChange(worker: Worker) {
+        Logger.log("worker = [${worker}]")
+        var indexOf = mWorkerList.indexOfFirst { it.id == worker.id }
+        mWorkerList.removeAt(indexOf)
+        var toPosition =
+            if (worker.status == Worker.STATUS_BUSY) 0
+            else mWorkerList.indexOfFirst { it.status == Worker.STATUS_IDLE }
+        if (toPosition == -1) toPosition = mWorkerList.size
+        mWorkerList.add(toPosition, worker)
+        notifyItemMoved(indexOf, toPosition)
+        notifyItemChanged(indexOf)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -45,17 +62,6 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
 
     override fun getItemCount(): Int {
         return mWorkerList.size
-    }
-
-    fun notifyStatusChange(worker: Worker) {
-        var indexOf = -1
-        mWorkerList.forEachIndexed { index, _worker -> if (worker.id == _worker.id) indexOf = index }
-        Logger.log(
-            "worker.id = [${worker.id}], worker.name = [${worker.name}], " +
-                    "worker.status = [${worker.getStatusText()}], indexOf = [${indexOf}]"
-        )
-        mWorkerList[indexOf] = worker
-        notifyItemChanged(indexOf)
     }
 
 }

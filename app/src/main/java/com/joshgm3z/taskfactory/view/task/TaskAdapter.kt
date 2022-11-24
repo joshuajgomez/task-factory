@@ -21,13 +21,27 @@ class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
             mTaskList.addAll(taskList)
             notifyItemRangeInserted(0, mTaskList.size)
         } else if (mTaskList.size != taskList.size) {
-            mTaskList.add(taskList.last())
-            notifyItemInserted(mTaskList.size - 1)
-//            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_ONGOING })
-//            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_ADDED })
-//            mTaskList.addAll(taskList.filter { task: Task -> task.status == Task.STATUS_FINISHED })
-//            notifyDataSetChanged()
+            var indexOf = mTaskList.indexOfFirst { it.status == Task.STATUS_FINISHED }
+            if (indexOf == -1)
+                indexOf = mTaskList.size
+            mTaskList.add(indexOf, taskList.last())
+            notifyItemInserted(indexOf)
         }
+    }
+
+    fun notifyStatusChange(task: Task) {
+        Logger.log("task = [${task}]")
+        val indexOf = mTaskList.indexOfFirst { it.id == task.id }
+        mTaskList.removeAt(indexOf)
+
+        var toPosition =
+            if (task.status == Task.STATUS_ONGOING) 0
+            else mTaskList.indexOfFirst { it.status == Task.STATUS_FINISHED }
+        if (toPosition == -1) toPosition = mTaskList.size
+
+        mTaskList.add(toPosition, task)
+        notifyItemMoved(indexOf, toPosition)
+        notifyItemChanged(toPosition)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskViewHolder {
@@ -43,17 +57,6 @@ class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
 
     override fun getItemCount(): Int {
         return mTaskList.size
-    }
-
-    fun notifyStatusChange(task: Task) {
-        var indexOf = -1
-        mTaskList.forEachIndexed { index, _task -> if (task.id == _task.id) indexOf = index }
-        Logger.log(
-            "task.id = [${task.id}], task.name = [${task.description}], " +
-                    "task.status = [${task.getStatusText()}], indexOf = [${indexOf}]"
-        )
-        mTaskList[indexOf] = task
-        notifyItemChanged(indexOf)
     }
 
 }

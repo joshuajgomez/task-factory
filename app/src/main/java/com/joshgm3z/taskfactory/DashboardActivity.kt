@@ -150,11 +150,15 @@ class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
         mViewModel.onTaskStart(activeTask)
         mTaskAdapter.notifyStatusChange(activeTask.task)
         mWorkerAdapter.notifyStatusChange(activeTask.worker)
+        mRvTaskList.scrollToPosition(0)
+        mRvWorkerList.scrollToPosition(0)
     }
 
     override fun onTaskFinish(activeTask: ActiveTask) {
         mViewModel.onTaskFinish(activeTask)
         mTaskAdapter.notifyStatusChange(activeTask.task)
         mWorkerAdapter.notifyStatusChange(activeTask.worker)
+        mRvTaskList.scrollToPosition(0)
+        mRvWorkerList.scrollToPosition(0)
     }
 }
