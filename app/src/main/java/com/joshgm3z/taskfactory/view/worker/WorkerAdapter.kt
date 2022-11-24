@@ -5,11 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.R
 import com.joshgm3z.taskfactory.common.utils.Logger
-import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
-import javax.inject.Inject
 
-class WorkerAdapter @Inject constructor() : RecyclerView.Adapter<WorkerViewHolder>() {
+class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
 
     private var mWorkerList: ArrayList<Worker> = ArrayList()
 

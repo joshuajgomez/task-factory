@@ -5,9 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.R
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
-import javax.inject.Inject
 
-class ActivityLogAdapter @Inject constructor() : RecyclerView.Adapter<ActivityLogViewHolder>() {
+class ActivityLogAdapter : RecyclerView.Adapter<ActivityLogViewHolder>() {
 
     private var mActivityLogList: ArrayList<ActivityLog> = ArrayList()
 

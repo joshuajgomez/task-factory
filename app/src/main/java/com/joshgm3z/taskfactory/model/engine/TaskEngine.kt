@@ -6,9 +6,10 @@ import com.joshgm3z.taskfactory.common.utils.Logger
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
 import java.util.concurrent.CopyOnWriteArrayList
-import javax.inject.Inject
 
-class TaskEngine(private val mCallback: TaskEngineCallback) {
+class TaskEngine(
+    private val mCallback: TaskEngineCallback,
+) {
 
     companion object {
         const val WORKING_INTERVAL: Long = 1000

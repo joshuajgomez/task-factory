@@ -7,12 +7,10 @@ import com.joshgm3z.taskfactory.model.room.TaskFactoryDb
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
-import javax.inject.Inject
 
-class TaskRepository @Inject constructor() {
-
-    @Inject
-    lateinit var db: TaskFactoryDb
+class TaskRepository(
+    private val db: TaskFactoryDb,
+) {
 
     private fun getCurrentTime() = System.currentTimeMillis()
 

@@ -12,11 +12,6 @@ import com.joshgm3z.taskfactory.model.room.dao.WorkerDao
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
-import dagger.Module
-import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
-import dagger.hilt.components.SingletonComponent
 
 @Database(entities = [Task::class, Worker::class, ActivityLog::class], version = 4)
 abstract class TaskFactoryDb : RoomDatabase() {

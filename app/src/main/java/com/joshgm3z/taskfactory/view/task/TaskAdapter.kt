@@ -6,10 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.R
 import com.joshgm3z.taskfactory.common.utils.Logger
 import com.joshgm3z.taskfactory.model.room.entity.Task
-import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class TaskAdapter @Inject constructor() : RecyclerView.Adapter<TaskViewHolder>() {
+class TaskAdapter : RecyclerView.Adapter<TaskViewHolder>() {
 
     private var mTaskList: ArrayList<Task> = ArrayList()
 

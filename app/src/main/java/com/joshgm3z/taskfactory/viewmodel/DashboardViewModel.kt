@@ -10,15 +10,11 @@ import com.joshgm3z.taskfactory.model.engine.ActiveTask
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class DashboardViewModel @Inject constructor() : ViewModel() {
-
-    @Inject
-    lateinit var repo: TaskRepository
+class DashboardViewModel(
+    private val repo: TaskRepository,
+) : ViewModel() {
 
     var mTaskList: LiveData<List<Task>>? = null
     var mWorkerList: LiveData<List<Worker>>? = null
