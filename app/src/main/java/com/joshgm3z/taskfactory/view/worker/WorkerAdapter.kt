@@ -20,11 +20,8 @@ class WorkerAdapter : RecyclerView.Adapter<WorkerViewHolder>() {
             mWorkerList.addAll(workerList)
             notifyItemRangeInserted(0, mWorkerList.size)
         } else if (mWorkerList.size != workerList.size) {
-            var indexOf = mWorkerList.indexOfFirst { it.status == Worker.STATUS_BUSY }
-            if (indexOf != -1)
-                indexOf++
-            else
-                indexOf = mWorkerList.size
+            var indexOf = mWorkerList.indexOfFirst { it.status == Worker.STATUS_IDLE }
+            if (indexOf == -1) indexOf = mWorkerList.size
             mWorkerList.add(indexOf, workerList.last())
             notifyItemInserted(indexOf)
         } else {

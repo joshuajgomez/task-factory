@@ -47,6 +47,7 @@ class TaskEngine(
 
                     activeTask.task.status = Task.STATUS_FINISHED
                     activeTask.worker.status = Worker.STATUS_IDLE
+                    activeTask.worker.jobCount++
                     mCallback.onTaskFinish(activeTask)
 
                     updateActiveTasks()

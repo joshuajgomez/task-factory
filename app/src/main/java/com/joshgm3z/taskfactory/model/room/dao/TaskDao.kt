@@ -26,8 +26,8 @@ interface TaskDao {
     @Query("delete from Task")
     suspend fun clear()
 
-    @Query("update Worker set job_count=job_count+1 where id=:workerId")
-    suspend fun incrementWorkerJobCount(workerId: Int)
+    @Query("update Worker set job_count=:jobCount where id=:workerId")
+    suspend fun updateWorkerJobCount(workerId: Int, jobCount: Int)
 
     @Transaction
     suspend fun runTaskStartTransaction(task: Task, worker: Worker) {
@@ -38,7 +38,7 @@ interface TaskDao {
     @Transaction
     suspend fun runTaskFinishTransaction(task: Task, worker: Worker) {
         updateTaskStatus(task.id, task.status, worker.name)
-        incrementWorkerJobCount(worker.id)
+        updateWorkerJobCount(worker.id, worker.jobCount)
         updateWorkerStatus(worker.id, worker.status)
     }
 }
