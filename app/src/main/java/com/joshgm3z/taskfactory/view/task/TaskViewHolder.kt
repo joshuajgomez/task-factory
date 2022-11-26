@@ -29,11 +29,11 @@ class TaskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         mTvTypeTag.text = task.getTypeText()
         mTvTypeTag.setBackgroundResource(
             when (task.type) {
-                Task.TYPE_COOKING -> R.color.yellow
-                Task.TYPE_CLEANING -> R.color.green
-                Task.TYPE_HELPING -> R.color.blue
-                Task.TYPE_MAINTENANCE -> R.color.red
-                Task.TYPE_BUSINESS -> R.color.purple
+                Task.TYPE_COOKING -> R.drawable.tag_background_rounded_yellow
+                Task.TYPE_CLEANING -> R.drawable.tag_background_rounded_green
+                Task.TYPE_HELPING -> R.drawable.tag_background_rounded_blue
+                Task.TYPE_MAINTENANCE -> R.drawable.tag_background_rounded_red
+                Task.TYPE_BUSINESS -> R.drawable.tag_background_rounded_purple
                 else -> R.color.white
             }
         )
