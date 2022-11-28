@@ -30,6 +30,14 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.3.2"
+    }
 }
 
 dependencies {
@@ -39,8 +47,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     testImplementation 'junit:junit:4.13.2'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     def room_version = "2.4.3"
     implementation("androidx.room:room-runtime:$room_version")
@@ -52,9 +60,24 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata:$lifecycle_version")
     implementation 'androidx.fragment:fragment-ktx:1.6.0-alpha03'
 
-    def koin_version = "3.2.2"
     // Koin Core features
-    implementation "io.insert-koin:koin-core:$koin_version"
+    def koin_core_version = "3.2.2"
+    implementation "io.insert-koin:koin-core:$koin_core_version"
     // Java Compatibility
-    implementation "io.insert-koin:koin-android-compat:$koin_version"
+    def koin_compat_version = "3.3.0"
+    implementation "io.insert-koin:koin-android-compat:$koin_compat_version"
+
+    def compose_bom_version = "2022.11.00"
+    implementation "androidx.compose:compose-bom:$compose_bom_version"
+    androidTestImplementation "androidx.compose:compose-bom:$compose_bom_version"
+
+    // Android Studio Preview support
+    def compose_tooling_version = "1.4.0-alpha02"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_tooling_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_tooling_version"
+
+    // Material Design 3
+    implementation 'androidx.compose.material3:material3:1.0.1'
+
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.1.0-alpha04"
 }
