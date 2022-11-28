@@ -11,7 +11,6 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.painterResource
@@ -29,17 +28,20 @@ const val mLayoutIdDuration = "duration"
 fun TaskItem(index: Int) {
     Card(
         shape = RoundedCornerShape(5.dp),
-        modifier = Modifier.padding(bottom = 5.dp)
+        modifier = Modifier
+            .background(Color.DarkGray)
+            .padding(bottom = 2.dp)
     ) {
         ConstraintLayout(
             modifier = Modifier
-                .padding(all = 5.dp)
                 .fillMaxWidth(1f)
+                .background(Color.DarkGray)
         ) {
             val (textName, textTime, pbLoading, textDuration, iconClock, textTag, space) = createRefs()
 
             Text(text = "Do something #$index",
-                fontSize = 20.sp,
+                fontSize = 16.sp,
+                color = Color.White,
                 modifier = Modifier
                     .constrainAs(textName) {
                         top.linkTo(parent.top)
@@ -50,6 +52,7 @@ fun TaskItem(index: Int) {
             Text(
                 text = "Nov 15, 03:34 AM",
                 fontSize = 10.sp,
+                color = Color.White,
                 modifier = Modifier
                     .constrainAs(textTime) {
                         top.linkTo(textName.bottom)
@@ -60,6 +63,7 @@ fun TaskItem(index: Int) {
             Text(
                 text = "Cooking",
                 fontSize = 10.sp,
+                color = Color.White,
                 modifier = Modifier
                     .constrainAs(textTag) {
                         top.linkTo(textTime.top)
@@ -69,18 +73,32 @@ fun TaskItem(index: Int) {
 //                    .paint(painterResource(id = R.drawable.tag_background_rounded_yellow))
                     .background(Color.Yellow)
             )
-            CircularProgressIndicator(
+//            CircularProgressIndicator(
+//                modifier = Modifier
+//                    .width(20.dp)
+//                    .height(20.dp)
+//                    .constrainAs(pbLoading) {
+//                        top.linkTo(textName.top)
+//                        bottom.linkTo(textName.bottom)
+//                        end.linkTo(parent.end)
+//                    }
+//            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_tick),
+                contentDescription = "finished",
                 modifier = Modifier
-                    .width(20.dp)
-                    .height(20.dp)
+                    .width(15.dp)
+                    .height(15.dp)
                     .constrainAs(pbLoading) {
                         top.linkTo(textName.top)
+                        bottom.linkTo(textName.bottom)
                         end.linkTo(parent.end)
                     }
             )
             Text(
                 text = "5",
                 fontSize = 10.sp,
+                color = Color.White,
                 modifier = Modifier
                     .constrainAs(textDuration) {
                         end.linkTo(parent.end)
@@ -126,39 +144,37 @@ fun TaskContainer() {
             text = "Tasks($taskCount)",
             modifier = Modifier
                 .constrainAs(textTitle) {
-                    start.linkTo(parent.start, margin = 10.dp)
-                    top.linkTo(parent.top, margin = 10.dp)
+                    start.linkTo(parent.start, margin = Dimens.titleMarginStart)
+                    top.linkTo(parent.top, margin = Dimens.titleMarginTop)
                 },
-            fontSize = 20.sp,
+            fontSize = Dimens.titleFontSize,
             color = Color.White
         )
-        Button(
-            onClick = { /*TODO*/ },
+        Text(
+            text = "+ Add task",
+            color = Color.Cyan,
             modifier = Modifier
                 .constrainAs(addButton) {
-                    end.linkTo(deleteIcon.start, margin = 10.dp)
+                    end.linkTo(deleteIcon.start, margin = 5.dp)
                     top.linkTo(textTitle.top)
                     bottom.linkTo(textTitle.bottom)
                 }
-                .height(35.dp)
-        ) {
-            Text(text = "+ Add task")
-        }
+        )
         Image(
             painter = painterResource(id = R.drawable.ic_delete_dark),
             contentDescription = "delete",
             modifier = Modifier
-                .width(20.dp)
-                .height(20.dp)
+                .width(Dimens.deleteIconWidth)
+                .height(Dimens.deleteIconHeight)
                 .constrainAs(deleteIcon) {
-                    end.linkTo(parent.end, margin = 10.dp)
+                    end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
                     top.linkTo(textTitle.top)
                     bottom.linkTo(textTitle.bottom)
                 }
         )
         LazyColumn(modifier = Modifier
             .constrainAs(list) {
-                top.linkTo(textTitle.bottom, margin = 10.dp)
+                top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
                 start.linkTo(parent.start)
             }
         ) {
