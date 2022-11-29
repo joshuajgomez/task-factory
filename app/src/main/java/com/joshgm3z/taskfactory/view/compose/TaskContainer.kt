@@ -5,9 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,10 +17,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.joshgm3z.taskfactory.R
-
-const val mLayoutIdTitle = "title"
-const val mLayoutIdAddedTime = "added_time"
-const val mLayoutIdDuration = "duration"
 
 @Composable
 fun TaskItem(index: Int) {
@@ -45,9 +39,8 @@ fun TaskItem(index: Int) {
                 modifier = Modifier
                     .constrainAs(textName) {
                         top.linkTo(parent.top)
-                        start.linkTo(parent.start)
+                        start.linkTo(parent.start, margin = 5.dp)
                     }
-                    .layoutId(mLayoutIdTitle)
             )
             Text(
                 text = "Nov 15, 03:34 AM",
@@ -55,10 +48,9 @@ fun TaskItem(index: Int) {
                 color = Color.White,
                 modifier = Modifier
                     .constrainAs(textTime) {
-                        top.linkTo(textName.bottom)
+                        top.linkTo(textName.bottom, margin = 3.dp)
                         start.linkTo(textName.start)
                     }
-                    .layoutId(mLayoutIdAddedTime),
             )
             Text(
                 text = "Cooking",
@@ -105,7 +97,6 @@ fun TaskItem(index: Int) {
                         bottom.linkTo(textTime.bottom)
                         top.linkTo(textTime.top)
                     }
-                    .layoutId(mLayoutIdDuration)
             )
             Image(
                 painter = painterResource(id = R.drawable.ic_clock),
@@ -135,51 +126,57 @@ fun TaskItem(index: Int) {
 @Composable
 fun TaskContainer() {
     val taskCount = 10
-    ConstraintLayout(
-        modifier = Modifier
-            .background(Color.DarkGray)
+    Card(
+        shape = RoundedCornerShape(Dimens.containerCardBorderRadius),
+        modifier = Modifier.fillMaxHeight(1f)
     ) {
-        val (textTitle, list, count, addButton, deleteIcon) = createRefs()
-        Text(
-            text = "Tasks($taskCount)",
+        ConstraintLayout(
             modifier = Modifier
-                .constrainAs(textTitle) {
-                    start.linkTo(parent.start, margin = Dimens.titleMarginStart)
-                    top.linkTo(parent.top, margin = Dimens.titleMarginTop)
-                },
-            fontSize = Dimens.titleFontSize,
-            color = Color.White
-        )
-        Text(
-            text = "+ Add task",
-            color = Color.Cyan,
-            modifier = Modifier
-                .constrainAs(addButton) {
-                    end.linkTo(deleteIcon.start, margin = 5.dp)
-                    top.linkTo(textTitle.top)
-                    bottom.linkTo(textTitle.bottom)
-                }
-        )
-        Image(
-            painter = painterResource(id = R.drawable.ic_delete_dark),
-            contentDescription = "delete",
-            modifier = Modifier
-                .width(Dimens.deleteIconWidth)
-                .height(Dimens.deleteIconHeight)
-                .constrainAs(deleteIcon) {
-                    end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
-                    top.linkTo(textTitle.top)
-                    bottom.linkTo(textTitle.bottom)
-                }
-        )
-        LazyColumn(modifier = Modifier
-            .constrainAs(list) {
-                top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
-                start.linkTo(parent.start)
-            }
+                .background(Color.DarkGray)
+                .fillMaxSize(1f)
         ) {
-            items(count = taskCount) {
-                TaskItem(it)
+            val (textTitle, list, count, addButton, deleteIcon) = createRefs()
+            Text(
+                text = "Tasks($taskCount)",
+                modifier = Modifier
+                    .constrainAs(textTitle) {
+                        start.linkTo(parent.start, margin = Dimens.titleMarginStart)
+                        top.linkTo(parent.top, margin = Dimens.titleMarginTop)
+                    },
+                fontSize = Dimens.titleFontSize,
+                color = Color.White
+            )
+            Text(
+                text = "+ Add task",
+                color = Color.Cyan,
+                modifier = Modifier
+                    .constrainAs(addButton) {
+                        end.linkTo(deleteIcon.start, margin = 5.dp)
+                        top.linkTo(textTitle.top)
+                        bottom.linkTo(textTitle.bottom)
+                    }
+            )
+            Image(
+                painter = painterResource(id = R.drawable.ic_delete_dark),
+                contentDescription = "delete",
+                modifier = Modifier
+                    .width(Dimens.deleteIconWidth)
+                    .height(Dimens.deleteIconHeight)
+                    .constrainAs(deleteIcon) {
+                        end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
+                        top.linkTo(textTitle.top)
+                        bottom.linkTo(textTitle.bottom)
+                    }
+            )
+            LazyColumn(modifier = Modifier
+                .constrainAs(list) {
+                    top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
+                    start.linkTo(parent.start)
+                }
+            ) {
+                items(count = taskCount) {
+                    TaskItem(it)
+                }
             }
         }
     }
@@ -190,7 +187,7 @@ fun TaskContainer() {
     showSystemUi = true
 )
 @Composable
-fun Preview() {
+fun PreviewTaskContainer() {
     TaskContainer()
 //    TaskItem(index = 1)
 }
