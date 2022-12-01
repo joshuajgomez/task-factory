@@ -4,6 +4,7 @@ import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
@@ -16,7 +17,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun ColorCheck() {
-    Column(Modifier.background(MaterialTheme.colorScheme.background)) {
+    Column(modifier = Modifier
+        .fillMaxWidth()
+        .background(MaterialTheme.colorScheme.background)
+    ) {
         MessageCard("op p", MaterialTheme.colorScheme.onPrimary, MaterialTheme.colorScheme.primary)
         MessageCard(
             "os s",
@@ -35,7 +39,7 @@ fun ColorCheck() {
             MaterialTheme.colorScheme.primaryContainer
         )
         MessageCard(
-            "osc sc", 
+            "osc sc",
             MaterialTheme.colorScheme.onSecondaryContainer,
             MaterialTheme.colorScheme.secondaryContainer
         )
@@ -69,8 +73,8 @@ fun MessageCard(message: String, item: Color, background: Color) {
 }
 
 //@Preview()
-@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_NO)
-//@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
+//@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_NO)
+@Preview(showBackground = true, showSystemUi = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewColorCheck() {
     ColorCheck()

@@ -1,41 +1,43 @@
 package com.joshgm3z.taskfactory.view.compose
 
-import androidx.compose.foundation.Image
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.Schedule
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.layoutId
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.joshgm3z.taskfactory.R
 
 @Composable
 fun TaskItem(index: Int) {
     Card(
         shape = RoundedCornerShape(5.dp),
         modifier = Modifier
-            .background(Color.DarkGray)
-            .padding(bottom = 2.dp)
+            .padding(bottom = 3.dp, start = 3.dp, end = 3.dp)
     ) {
         ConstraintLayout(
             modifier = Modifier
-                .fillMaxWidth(1f)
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.tertiary)
+                .fillMaxWidth()
+                .padding(bottom = 3.dp, start = 2.dp, end = 2.dp)
         ) {
             val (textName, textTime, pbLoading, textDuration, iconClock, textTag, space) = createRefs()
 
             Text(text = "Do something #$index",
                 fontSize = 16.sp,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier
                     .constrainAs(textName) {
                         top.linkTo(parent.top)
@@ -45,7 +47,7 @@ fun TaskItem(index: Int) {
             Text(
                 text = "Nov 15, 03:34 AM",
                 fontSize = 10.sp,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
                 modifier = Modifier
                     .constrainAs(textTime) {
                         top.linkTo(textName.bottom, margin = 3.dp)
@@ -55,15 +57,14 @@ fun TaskItem(index: Int) {
             Text(
                 text = "Cooking",
                 fontSize = 10.sp,
-                color = Color.White,
+                color = Color.Black,
                 modifier = Modifier
                     .constrainAs(textTag) {
                         top.linkTo(textTime.top)
                         bottom.linkTo(textTime.bottom)
                         start.linkTo(textTime.end, margin = 10.dp)
                     }
-//                    .paint(painterResource(id = R.drawable.tag_background_rounded_yellow))
-                    .background(Color.Yellow)
+                    .background(Red1)
             )
 //            CircularProgressIndicator(
 //                modifier = Modifier
@@ -75,22 +76,20 @@ fun TaskItem(index: Int) {
 //                        end.linkTo(parent.end)
 //                    }
 //            )
-            Image(
-                painter = painterResource(id = R.drawable.ic_tick),
+            Icon(
+                imageVector = Icons.Filled.CheckCircle,
                 contentDescription = "finished",
                 modifier = Modifier
-                    .width(15.dp)
-                    .height(15.dp)
+                    .size(15.dp)
                     .constrainAs(pbLoading) {
                         top.linkTo(textName.top)
                         bottom.linkTo(textName.bottom)
                         end.linkTo(parent.end)
-                    }
-            )
+                    })
             Text(
                 text = "5",
                 fontSize = 10.sp,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
                 modifier = Modifier
                     .constrainAs(textDuration) {
                         end.linkTo(parent.end)
@@ -98,41 +97,43 @@ fun TaskItem(index: Int) {
                         top.linkTo(textTime.top)
                     }
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_clock),
-                contentDescription = "clock",
+            Icon(
+                imageVector = Icons.Outlined.Schedule,
+                contentDescription = "duration",
                 modifier = Modifier
-                    .width(10.dp)
-                    .height(10.dp)
+                    .size(10.dp)
                     .constrainAs(iconClock) {
                         end.linkTo(textDuration.start, margin = 3.dp)
                         bottom.linkTo(textDuration.bottom)
                         top.linkTo(textDuration.top)
-                    }
-            )
-            Spacer(modifier = Modifier
-                .height(50.dp)
-                .width(IntrinsicSize.Max)
-                .constrainAs(space) {
-                    start.linkTo(parent.start)
-                    bottom.linkTo(parent.bottom)
-                }
-            )
+                    })
         }
     }
 }
 
+@Composable
+fun Tag(tagText: String) {
+    Card {
+        Text(
+            text = tagText,
+            fontSize = 10.sp,
+            color = Color.Black,
+        )
+    }
+}
 
 @Composable
 fun TaskContainer() {
     val taskCount = 10
     Card(
         shape = RoundedCornerShape(Dimens.containerCardBorderRadius),
-        modifier = Modifier.fillMaxHeight(1f)
+        modifier = Modifier
+            .fillMaxHeight(1f)
+            .background(MaterialTheme.colorScheme.primary)
     ) {
         ConstraintLayout(
             modifier = Modifier
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.secondary)
                 .fillMaxSize(1f)
         ) {
             val (textTitle, list, count, addButton, deleteIcon) = createRefs()
@@ -144,30 +145,34 @@ fun TaskContainer() {
                         top.linkTo(parent.top, margin = Dimens.titleMarginTop)
                     },
                 fontSize = Dimens.titleFontSize,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onSecondary
             )
             Text(
-                text = "+ Add task",
-                color = Color.Cyan,
+                text = "+Add task",
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontSize = Dimens.buttonFontSize,
                 modifier = Modifier
                     .constrainAs(addButton) {
-                        end.linkTo(deleteIcon.start, margin = 5.dp)
+                        end.linkTo(deleteIcon.start, margin = 2.dp)
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
                     }
+                    .background(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = CircleShape
+                    )
+                    .padding(start = 6.dp, end = 6.dp, top = 1.dp, bottom = 2.dp)
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_delete_dark),
-                contentDescription = "delete",
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = "Localized description",
                 modifier = Modifier
-                    .width(Dimens.deleteIconWidth)
-                    .height(Dimens.deleteIconHeight)
+                    .size(Dimens.deleteIconSize)
                     .constrainAs(deleteIcon) {
                         end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
-                    }
-            )
+                    })
             LazyColumn(modifier = Modifier
                 .constrainAs(list) {
                     top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
@@ -182,13 +187,12 @@ fun TaskContainer() {
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true
-)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewTaskContainer() {
-    TaskContainer()
-//    TaskItem(index = 1)
+    Material3AppTheme {
+        TaskContainer()
+    }
 }
 

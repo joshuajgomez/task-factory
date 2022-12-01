@@ -1,15 +1,19 @@
 package com.joshgm3z.taskfactory.view.compose
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.HourglassEmpty
+import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.outlined.HourglassEmpty
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,18 +29,18 @@ fun WorkerItem(index: Int) {
     Card(
         shape = RoundedCornerShape(2.dp),
         modifier = Modifier
-            .background(MaterialTheme.colorScheme.tertiaryContainer)
-            .padding(bottom = 2.dp)
+            .padding(bottom = 3.dp, start = 3.dp, end = 3.dp)
     ) {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth(1f)
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.tertiary)
+                .padding(top = 5.dp, bottom = 5.dp)
         ) {
             val (textName, pbLoading, textCount, iconClock) = createRefs()
             Text(text = "Worker #$index",
                 fontSize = 16.sp,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier
                     .constrainAs(textName) {
                         top.linkTo(parent.top)
@@ -45,6 +49,7 @@ fun WorkerItem(index: Int) {
                     }
             )
             CircularProgressIndicator(
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier
                     .width(18.dp)
                     .height(18.dp)
@@ -54,22 +59,20 @@ fun WorkerItem(index: Int) {
                         end.linkTo(iconClock.start)
                     }
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_hour_glass),
-                contentDescription = "clock",
+            Icon(
+                imageVector = Icons.Outlined.HourglassEmpty,
+                contentDescription = "finished",
                 modifier = Modifier
-                    .width(18.dp)
-                    .height(18.dp)
+                    .size(18.dp)
                     .constrainAs(iconClock) {
                         top.linkTo(textName.top)
                         bottom.linkTo(textName.bottom)
                         end.linkTo(textCount.start, margin = 10.dp)
-                    }
-            )
+                    })
             Text(
                 text = "5",
                 fontSize = 13.sp,
-                color = MaterialTheme.colorScheme.onTertiary,
+                color = MaterialTheme.colorScheme.onTertiaryContainer,
                 modifier = Modifier
                     .constrainAs(textCount) {
                         top.linkTo(textName.top)
@@ -77,7 +80,7 @@ fun WorkerItem(index: Int) {
                         end.linkTo(parent.end, margin = 10.dp)
                     }
                     .background(
-                        color = MaterialTheme.colorScheme.tertiary,
+                        color = MaterialTheme.colorScheme.tertiaryContainer,
                         shape = CircleShape
                     )
                     .padding(start = 5.dp, end = 5.dp)
@@ -96,7 +99,7 @@ fun WorkContainer() {
     ) {
         ConstraintLayout(
             modifier = Modifier
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.secondary)
                 .fillMaxSize(1f)
                 .padding(start = 5.dp)
         ) {
@@ -109,35 +112,34 @@ fun WorkContainer() {
                         top.linkTo(parent.top, margin = Dimens.titleMarginTop)
                     },
                 fontSize = Dimens.titleFontSize,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onSecondary
             )
             Text(
                 text = "+Recruit",
-                color = MaterialTheme.colorScheme.secondary,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                fontSize = Dimens.buttonFontSize,
                 modifier = Modifier
                     .constrainAs(addButton) {
-                        end.linkTo(deleteIcon.start, margin = 5.dp)
+                        end.linkTo(deleteIcon.start, margin = 2.dp)
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
                     }
                     .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        color = MaterialTheme.colorScheme.primaryContainer,
                         shape = CircleShape
                     )
-                    .padding(start = 10.dp, end = 10.dp, top = 3.dp, bottom = 4.dp)
+                    .padding(start = 6.dp, end = 6.dp, top = 1.dp, bottom = 2.dp)
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_delete_dark),
-                contentDescription = "delete",
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = "Localized description",
                 modifier = Modifier
-                    .width(Dimens.deleteIconWidth)
-                    .height(Dimens.deleteIconHeight)
+                    .size(Dimens.deleteIconSize)
                     .constrainAs(deleteIcon) {
                         end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
-                    }
-            )
+                    })
             LazyColumn(modifier = Modifier
                 .constrainAs(list) {
                     top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
@@ -152,13 +154,12 @@ fun WorkContainer() {
     }
 }
 
-@Preview(
-    showBackground = true,
-    showSystemUi = true,
-)
-//@Preview(uiMode = UI_MODE_NIGHT_NO)
+@Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+@Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewWorkContainer() {
-    WorkContainer()
+    Material3AppTheme() {
+        WorkContainer()
+    }
 }
 

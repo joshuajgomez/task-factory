@@ -1,11 +1,16 @@
 package com.joshgm3z.taskfactory.view.compose
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -24,7 +29,7 @@ fun ActivityContainer() {
     ) {
         ConstraintLayout(
             modifier = Modifier
-                .background(Color.DarkGray)
+                .background(MaterialTheme.colorScheme.secondary)
                 .fillMaxSize(1f)
         ) {
             val (textTitle, deleteIcon, list) = createRefs()
@@ -36,14 +41,14 @@ fun ActivityContainer() {
                         start.linkTo(parent.start, margin = Dimens.titleMarginStart)
                     },
                 fontSize = Dimens.titleFontSize,
-                color = Color.White
+                color = MaterialTheme.colorScheme.onSecondary
             )
-            Image(
-                painter = painterResource(id = R.drawable.ic_delete_dark),
-                contentDescription = "delete icon",
+
+            Icon(
+                imageVector = Icons.Outlined.Delete,
+                contentDescription = "Localized description",
                 modifier = Modifier
-                    .width(Dimens.deleteIconWidth)
-                    .height(Dimens.deleteIconHeight)
+                    .size(Dimens.deleteIconSize)
                     .constrainAs(deleteIcon) {
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
@@ -68,24 +73,29 @@ fun ActivityContainer() {
 fun ActivityItem(index: Int) {
     Column(
         modifier = Modifier
-            .background(Color.DarkGray)
+            .background(Color.Transparent)
             .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
     ) {
         Text(
             text = "Nov 5, 2:00 PM",
             fontSize = 9.sp,
-            color = Color.Gray
+            color = MaterialTheme.colorScheme.onTertiaryContainer
         )
         Text(
-            text = "Joshua started working on task #$index",
+            text = "Joshua started working on task on task #$index",
             fontSize = 12.sp,
-            color = Color.White
+            color = MaterialTheme.colorScheme.onSecondary,
+            lineHeight = 15.sp
+
         )
     }
 }
 
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 fun PreviewActivity() {
-    ActivityContainer()
+    Material3AppTheme() {
+        ActivityContainer()
+    }
 }

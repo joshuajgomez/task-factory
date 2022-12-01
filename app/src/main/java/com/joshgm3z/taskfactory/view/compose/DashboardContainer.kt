@@ -1,5 +1,7 @@
 package com.joshgm3z.taskfactory.view.compose
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -22,13 +24,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 fun DashboardContainer() {
     Surface {
         ConstraintLayout(
-            modifier = Modifier.background(MaterialTheme.colorScheme.background)
+            modifier = Modifier.background(MaterialTheme.colorScheme.primary)
         ) {
             val (textTitle, layoutTask, layoutLog, layoutWorker) = createRefs()
             Text(
                 fontSize = 20.sp,
                 text = "task-factory",
-                color = MaterialTheme.colorScheme.onBackground,
+                color = MaterialTheme.colorScheme.onPrimary,
                 modifier = Modifier
                     .constrainAs(textTitle) {
                         top.linkTo(parent.top, margin = 10.dp)
@@ -40,10 +42,11 @@ fun DashboardContainer() {
             Surface(modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .constrainAs(layoutTask) {
-                    top.linkTo(textTitle.bottom, margin = 10.dp)
+                    top.linkTo(textTitle.bottom, margin = 50.dp)
                     start.linkTo(parent.start, margin = 3.dp)
+                    bottom.linkTo(parent.bottom)
                 }) {
-            TaskContainer()
+                TaskContainer()
             }
 
             Surface(
@@ -75,8 +78,11 @@ fun DashboardContainer() {
     }
 }
 
-@Preview(showSystemUi = true, showBackground = true)
+@Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+@Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewDashboard() {
-    DashboardContainer()
+    Material3AppTheme() {
+        DashboardContainer()
+    }
 }
