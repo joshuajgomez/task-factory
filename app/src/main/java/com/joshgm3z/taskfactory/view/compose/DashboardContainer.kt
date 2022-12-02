@@ -10,6 +10,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,13 +39,15 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
             )
 
             // Task container
-            Surface(modifier = Modifier
-                .fillMaxWidth(0.5f)
-                .constrainAs(layoutTask) {
-                    top.linkTo(textTitle.bottom, margin = 50.dp)
-                    start.linkTo(parent.start, margin = 3.dp)
-                    bottom.linkTo(parent.bottom)
-                }) {
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier
+                    .fillMaxWidth(0.5f)
+                    .constrainAs(layoutTask) {
+                        top.linkTo(textTitle.bottom, margin = 50.dp)
+                        start.linkTo(parent.start, margin = 3.dp)
+                        bottom.linkTo(parent.bottom)
+                    }) {
                 TaskContainer(
                     taskList = taskViewModel.taskList,
                     onTasksClearClick = { taskViewModel.onClearTasksClick() },
@@ -54,6 +57,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
 
             // Workers container
             Surface(
+                color = Color.Transparent,
                 modifier = Modifier
                     .fillMaxWidth(0.48f)
                     .fillMaxHeight(0.49f)
@@ -72,9 +76,10 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
 
             // Log container
             Surface(
+                color = Color.Transparent,
                 modifier = Modifier
                     .fillMaxWidth(0.48f)
-                    .fillMaxHeight(0.49f)
+                    .fillMaxHeight(0.45f)
                     .constrainAs(layoutLog) {
                         top.linkTo(layoutWorker.bottom, margin = 3.dp)
                         start.linkTo(layoutWorker.start)
