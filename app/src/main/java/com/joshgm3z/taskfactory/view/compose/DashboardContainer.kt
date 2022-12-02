@@ -95,7 +95,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
     }
 }
 
-@Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+//@Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
 @Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewDashboard() {

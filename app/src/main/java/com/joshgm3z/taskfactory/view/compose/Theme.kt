@@ -23,14 +23,14 @@ val DarkColorPalette = darkColorScheme(
 )
 
 val LightColorPalette = lightColorScheme(
-    primary = White1,
+    primary = Gray6,
     onPrimary = Gray1,
-    secondary = Gray6,
-    onSecondary = Gray1,
-    tertiary = Green3,
+    secondary = Gray7,
+    onSecondary = Gray2,
+    tertiary = Gray6,
     onTertiary = Black1,
     tertiaryContainer = Red2,
-    onTertiaryContainer = White1,
+    onTertiaryContainer = Gray2,
     primaryContainer = Green2,
     onPrimaryContainer = Black1,
     secondaryContainer = Red2,
