@@ -103,7 +103,7 @@ fun WorkContainer() {
                 .fillMaxSize(1f)
                 .padding(start = 5.dp)
         ) {
-            val (textTitle, list, count, addButton, deleteIcon) = createRefs()
+            val (textTitle, list, addButton, deleteIcon) = createRefs()
             Text(
                 text = "Workers($workerCount)",
                 modifier = Modifier

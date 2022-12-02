@@ -34,7 +34,7 @@ fun TaskItem(index: Int) {
                 .fillMaxWidth()
                 .padding(bottom = 3.dp, start = 2.dp, end = 2.dp)
         ) {
-            val (textName, textTime, pbLoading, textDuration, iconClock, textTag, space) = createRefs()
+            val (textName, textTime, pbLoading, textDuration, iconClock, textTag) = createRefs()
 
             Text(text = "Do something #$index",
                 fontSize = 16.sp,
@@ -141,7 +141,7 @@ fun TaskContainer(
                 .background(MaterialTheme.colorScheme.secondary)
                 .fillMaxSize(1f)
         ) {
-            val (textTitle, list, count, addButton, deleteIcon) = createRefs()
+            val (textTitle, list, addButton, deleteIcon) = createRefs()
             Text(
                 text = "Tasks($taskCount)",
                 modifier = Modifier
