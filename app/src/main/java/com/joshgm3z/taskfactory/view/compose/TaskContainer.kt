@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.joshgm3z.taskfactory.model.room.entity.Task
 
 @Composable
 fun TaskItem(index: Int) {
@@ -123,7 +124,11 @@ fun Tag(tagText: String) {
 }
 
 @Composable
-fun TaskContainer() {
+fun TaskContainer(
+    taskList: List<Task>,
+    onTasksClearClick: (Task) -> Unit,
+    onAddTaskClick: (Task) -> Unit
+) {
     val taskCount = 10
     Card(
         shape = RoundedCornerShape(Dimens.containerCardBorderRadius),
@@ -192,7 +197,7 @@ fun TaskContainer() {
 @Composable
 fun PreviewTaskContainer() {
     Material3AppTheme {
-        TaskContainer()
+        TaskContainer(listOf(), {}, {})
     }
 }
 

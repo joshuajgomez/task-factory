@@ -3,30 +3,28 @@ package com.joshgm3z.taskfactory.view.compose
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun DashboardContainer() {
+fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
     Surface {
         ConstraintLayout(
             modifier = Modifier.background(MaterialTheme.colorScheme.primary)
         ) {
             val (textTitle, layoutTask, layoutLog, layoutWorker) = createRefs()
+
+            // App Title
             Text(
                 fontSize = 20.sp,
                 text = "task-factory",
@@ -39,6 +37,7 @@ fun DashboardContainer() {
                     }
             )
 
+            // Task container
             Surface(modifier = Modifier
                 .fillMaxWidth(0.5f)
                 .constrainAs(layoutTask) {
@@ -46,9 +45,14 @@ fun DashboardContainer() {
                     start.linkTo(parent.start, margin = 3.dp)
                     bottom.linkTo(parent.bottom)
                 }) {
-                TaskContainer()
+                TaskContainer(
+                    taskViewModel.taskList,
+                    onTasksClearClick = { taskViewModel.onClearTasksClick() },
+                    onAddTaskClick = { taskViewModel.onAddTaskClick() },
+                )
             }
 
+            // Workers container
             Surface(
                 modifier = Modifier
                     .fillMaxWidth(0.48f)
@@ -61,6 +65,8 @@ fun DashboardContainer() {
             ) {
                 WorkContainer()
             }
+
+            // Log container
             Surface(
                 modifier = Modifier
                     .fillMaxWidth(0.48f)
