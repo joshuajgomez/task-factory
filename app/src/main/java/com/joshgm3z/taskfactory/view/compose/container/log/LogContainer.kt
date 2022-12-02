@@ -1,8 +1,7 @@
-package com.joshgm3z.taskfactory.view.compose
+package com.joshgm3z.taskfactory.view.compose.container.log
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -15,19 +14,19 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.joshgm3z.taskfactory.R
-import com.joshgm3z.taskfactory.common.utils.DateUtil
+import com.joshgm3z.taskfactory.common.utils.RandomData
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
-import com.joshgm3z.taskfactory.model.room.entity.Task
+import com.joshgm3z.taskfactory.view.compose.common.Dimens
+import com.joshgm3z.taskfactory.view.compose.common.Gray4
+import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
 
 @Composable
-fun ActivityContainer(
+fun LogContainer(
     logList: List<ActivityLog>,
     onClearLogClick: () -> Unit,
 ) {
@@ -85,35 +84,14 @@ fun LogList(logList: List<ActivityLog>) {
             text = "No activity yet. Add tasks and workers to get the party started!",
             textAlign = TextAlign.Center,
             fontSize = 13.sp,
-            lineHeight = 16.sp
+            lineHeight = 16.sp,
+            color = Gray4
         )
     }
     LazyColumn {
         items(items = logList) {
-            ActivityItem(it)
+            LogItem(it)
         }
-    }
-}
-
-@Composable
-fun ActivityItem(log: ActivityLog) {
-    Column(
-        modifier = Modifier
-            .background(Color.Transparent)
-            .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
-    ) {
-        Text(
-            text = DateUtil.getPrettyDate(log.dateFinished),
-            fontSize = 9.sp,
-            color = MaterialTheme.colorScheme.onTertiaryContainer
-        )
-        Text(
-            text = log.description,
-            fontSize = 12.sp,
-            color = MaterialTheme.colorScheme.onSecondary,
-            lineHeight = 15.sp
-
-        )
     }
 }
 
@@ -122,6 +100,16 @@ fun ActivityItem(log: ActivityLog) {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 fun PreviewActivity() {
     Material3AppTheme() {
-        ActivityContainer(listOf(), {})
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(all = 20.dp)
+        ) {
+            Surface(modifier = Modifier.fillMaxWidth(0.55f)) {
+                LogContainer(RandomData.getActivityList(), {})
+            }
+            Surface(modifier = Modifier.fillMaxWidth(0.5f)) {}
+        }
     }
 }

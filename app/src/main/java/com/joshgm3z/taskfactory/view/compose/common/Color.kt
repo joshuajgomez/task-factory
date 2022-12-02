@@ -1,4 +1,4 @@
-package com.joshgm3z.taskfactory.view.compose
+package com.joshgm3z.taskfactory.view.compose.common
 
 import androidx.compose.ui.graphics.Color
 
@@ -23,4 +23,8 @@ val White1 = Color(0xFFFFFFFF)
 val Black1 = Color(0xFF000000)
 val Black2 = Color(0xFF494949)
 
-val Yellow1 = Color(0xFFFFF7B1)
+val Yellow1 = Color(0xFFE4D44D)
+
+val Blue1 = Color(0xFF00BCD4)
+val Purple1 = Color(0xFFB33EC7)
+val Orange1 = Color(0xFFFF9800)

@@ -1,11 +1,8 @@
-package com.joshgm3z.taskfactory.view.compose
+package com.joshgm3z.taskfactory.view.compose.common
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.UiMode
 
 val DarkColorPalette = darkColorScheme(
     primary = Gray1,

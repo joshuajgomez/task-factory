@@ -1,4 +1,4 @@
-package com.joshgm3z.taskfactory.view.compose
+package com.joshgm3z.taskfactory.view.compose.container.task
 
 import android.content.res.Configuration
 import androidx.compose.animation.AnimatedVisibility
@@ -10,123 +10,20 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.outlined.Delete
-import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.joshgm3z.taskfactory.common.utils.DateUtil
 import com.joshgm3z.taskfactory.model.room.entity.Task
-
-@Composable
-fun TaskItem(task: Task) {
-    Card(
-        shape = RoundedCornerShape(5.dp),
-        modifier = Modifier
-            .padding(bottom = 3.dp, start = 3.dp, end = 3.dp)
-    ) {
-        ConstraintLayout(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.tertiary)
-                .fillMaxWidth()
-                .padding(bottom = 3.dp, start = 2.dp, end = 2.dp)
-        ) {
-            val (textName, textTime, pbLoading, textDuration, iconClock, textTag) = createRefs()
-
-            Text(text = task.description,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onTertiary,
-                modifier = Modifier
-                    .constrainAs(textName) {
-                        top.linkTo(parent.top)
-                        start.linkTo(parent.start, margin = 5.dp)
-                    }
-            )
-            Text(
-                text = DateUtil.getPrettyDate(task.timeAdded),
-                fontSize = 10.sp,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
-                modifier = Modifier
-                    .constrainAs(textTime) {
-                        top.linkTo(textName.bottom, margin = 3.dp)
-                        start.linkTo(textName.start)
-                    }
-            )
-            Text(
-                text = task.getTypeText(),
-                fontSize = 10.sp,
-                color = Color.Black,
-                modifier = Modifier
-                    .constrainAs(textTag) {
-                        top.linkTo(textTime.top)
-                        bottom.linkTo(textTime.bottom)
-                        start.linkTo(textTime.end, margin = 10.dp)
-                    }
-                    .background(Red1)
-            )
-//            CircularProgressIndicator(
-//                modifier = Modifier
-//                    .width(20.dp)
-//                    .height(20.dp)
-//                    .constrainAs(pbLoading) {
-//                        top.linkTo(textName.top)
-//                        bottom.linkTo(textName.bottom)
-//                        end.linkTo(parent.end)
-//                    }
-//            )
-            Icon(
-                imageVector = Icons.Filled.CheckCircle,
-                contentDescription = "finished",
-                modifier = Modifier
-                    .size(15.dp)
-                    .constrainAs(pbLoading) {
-                        top.linkTo(textName.top)
-                        bottom.linkTo(textName.bottom)
-                        end.linkTo(parent.end)
-                    })
-            Text(
-                text = "${task.duration}",
-                fontSize = 10.sp,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
-                modifier = Modifier
-                    .constrainAs(textDuration) {
-                        end.linkTo(parent.end)
-                        bottom.linkTo(textTime.bottom)
-                        top.linkTo(textTime.top)
-                    }
-            )
-            Icon(
-                imageVector = Icons.Outlined.Schedule,
-                contentDescription = "duration",
-                modifier = Modifier
-                    .size(10.dp)
-                    .constrainAs(iconClock) {
-                        end.linkTo(textDuration.start, margin = 3.dp)
-                        bottom.linkTo(textDuration.bottom)
-                        top.linkTo(textDuration.top)
-                    })
-        }
-    }
-}
-
-@Composable
-fun Tag(tagText: String) {
-    Card {
-        Text(
-            text = tagText,
-            fontSize = 10.sp,
-            color = Color.Black,
-        )
-    }
-}
+import com.joshgm3z.taskfactory.view.compose.common.Dimens
+import com.joshgm3z.taskfactory.view.compose.common.*
+import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
 
 @Composable
 fun TaskContainer(
@@ -137,13 +34,12 @@ fun TaskContainer(
     Card(
         shape = RoundedCornerShape(Dimens.containerCardBorderRadius),
         modifier = Modifier
-            .fillMaxHeight(1f)
             .background(MaterialTheme.colorScheme.primary)
     ) {
         ConstraintLayout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.secondary)
-                .fillMaxSize(1f)
+                .fillMaxSize()
         ) {
             val (textTitle, list, addButton, deleteIcon) = createRefs()
             Text(
@@ -209,7 +105,8 @@ fun TaskList(taskList: List<Task>) {
             text = "No tasks added. Click on +Add to create a random task",
             textAlign = TextAlign.Center,
             fontSize = 13.sp,
-            lineHeight = 16.sp
+            lineHeight = 16.sp,
+            color = Gray4
         )
     }
     LazyColumn {
@@ -220,11 +117,21 @@ fun TaskList(taskList: List<Task>) {
 }
 
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewTaskContainer() {
     Material3AppTheme {
-        TaskContainer(listOf(), {}, {})
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primary)
+                .padding(all = 20.dp)
+        ) {
+            Surface(modifier = Modifier.fillMaxWidth(0.55f)) {
+                TaskContainer(listOf(), {}, {})
+            }
+            Surface(modifier = Modifier.fillMaxWidth(0.5f)) {}
+        }
     }
 }
 

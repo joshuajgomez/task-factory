@@ -7,7 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.joshgm3z.taskfactory.view.compose.DashboardContainer
-import com.joshgm3z.taskfactory.view.compose.Material3AppTheme
+import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

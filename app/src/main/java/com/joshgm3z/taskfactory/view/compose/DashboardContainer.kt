@@ -16,6 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
+import com.joshgm3z.taskfactory.view.compose.container.log.LogContainer
+import com.joshgm3z.taskfactory.view.compose.container.task.TaskContainer
+import com.joshgm3z.taskfactory.view.compose.container.worker.WorkContainer
 
 @Composable
 fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
@@ -40,9 +44,10 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
 
             // Task container
             Surface(
-                color = Color.Transparent,
+                color = Color.Red,
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
+                    .fillMaxHeight()
                     .constrainAs(layoutTask) {
                         top.linkTo(textTitle.bottom, margin = 50.dp)
                         start.linkTo(parent.start, margin = 3.dp)
@@ -87,7 +92,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                         bottom.linkTo(parent.bottom)
                     }
             ) {
-                ActivityContainer(
+                LogContainer(
                     logList = taskViewModel.logList,
                     onClearLogClick = { taskViewModel.onClearLogClick() })
             }
@@ -95,8 +100,8 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
     }
 }
 
-//@Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
-@Preview(uiMode = UI_MODE_NIGHT_NO)
+@Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
+@Preview(uiMode = UI_MODE_NIGHT_NO, showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewDashboard() {
     Material3AppTheme() {

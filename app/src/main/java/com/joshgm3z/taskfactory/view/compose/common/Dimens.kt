@@ -1,4 +1,4 @@
-package com.joshgm3z.taskfactory.view.compose
+package com.joshgm3z.taskfactory.view.compose.common
 
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.ui.unit.dp
