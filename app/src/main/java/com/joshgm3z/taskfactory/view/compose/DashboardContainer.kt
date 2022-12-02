@@ -46,7 +46,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                     bottom.linkTo(parent.bottom)
                 }) {
                 TaskContainer(
-                    taskViewModel.taskList,
+                    taskList = taskViewModel.taskList,
                     onTasksClearClick = { taskViewModel.onClearTasksClick() },
                     onAddTaskClick = { taskViewModel.onAddTaskClick() },
                 )
@@ -63,7 +63,11 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                         end.linkTo(parent.end, margin = 3.dp)
                     }
             ) {
-                WorkContainer()
+                WorkContainer(
+                    workerList = taskViewModel.workerList,
+                    onWorkersClearClick = { taskViewModel.onClearWorkersClick() },
+                    onAddWorkerClick = { taskViewModel.onAddWorkerClick() }
+                )
             }
 
             // Log container
@@ -78,7 +82,9 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                         bottom.linkTo(parent.bottom)
                     }
             ) {
-                ActivityContainer()
+                ActivityContainer(
+                    logList = taskViewModel.logList,
+                    onClearLogClick = { taskViewModel.onClearLogClick() })
             }
         }
     }

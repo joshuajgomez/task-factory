@@ -2,30 +2,32 @@ package com.joshgm3z.taskfactory.view.compose
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
-import androidx.compose.foundation.Image
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.HourglassEmpty
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.HourglassEmpty
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import com.joshgm3z.taskfactory.R
+import com.joshgm3z.taskfactory.model.room.entity.Task
+import com.joshgm3z.taskfactory.model.room.entity.Worker
 
 @Composable
-fun WorkerItem(index: Int) {
+fun WorkerItem(worker: Worker) {
     Card(
         shape = RoundedCornerShape(2.dp),
         modifier = Modifier
@@ -38,7 +40,7 @@ fun WorkerItem(index: Int) {
                 .padding(top = 5.dp, bottom = 5.dp)
         ) {
             val (textName, pbLoading, textCount, iconClock) = createRefs()
-            Text(text = "Worker #$index",
+            Text(text = worker.name,
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier
@@ -70,7 +72,7 @@ fun WorkerItem(index: Int) {
                         end.linkTo(textCount.start, margin = 10.dp)
                     })
             Text(
-                text = "5",
+                text = "${worker.jobCount}",
                 fontSize = 13.sp,
                 color = MaterialTheme.colorScheme.onTertiaryContainer,
                 modifier = Modifier
@@ -92,8 +94,11 @@ fun WorkerItem(index: Int) {
 
 
 @Composable
-fun WorkContainer() {
-    val workerCount = 10
+fun WorkContainer(
+    workerList: List<Worker>,
+    onWorkersClearClick: () -> Unit,
+    onAddWorkerClick: () -> Unit,
+) {
     Card(
         shape = RoundedCornerShape(Dimens.containerCardBorderRadius)
     ) {
@@ -105,7 +110,7 @@ fun WorkContainer() {
         ) {
             val (textTitle, list, addButton, deleteIcon) = createRefs()
             Text(
-                text = "Workers($workerCount)",
+                text = "Workers(${workerList.size})",
                 modifier = Modifier
                     .constrainAs(textTitle) {
                         start.linkTo(parent.start, margin = Dimens.titleMarginStart)
@@ -129,6 +134,7 @@ fun WorkContainer() {
                         shape = CircleShape
                     )
                     .padding(start = 6.dp, end = 6.dp, top = 1.dp, bottom = 2.dp)
+                    .clickable { onAddWorkerClick() }
             )
             Icon(
                 imageVector = Icons.Outlined.Delete,
@@ -139,17 +145,37 @@ fun WorkContainer() {
                         end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
-                    })
-            LazyColumn(modifier = Modifier
-                .constrainAs(list) {
-                    top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
-                    start.linkTo(parent.start)
-                }
-            ) {
-                items(count = workerCount) {
-                    WorkerItem(it)
-                }
+                    }
+                    .clickable { onWorkersClearClick() })
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier
+                    .constrainAs(list) {
+                        top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
+                        start.linkTo(parent.start)
+                    }) {
+                WorkerList(workerList = workerList)
             }
+        }
+    }
+}
+
+@Composable
+fun WorkerList(workerList: List<Worker>) {
+    AnimatedVisibility(
+        visible = workerList.isEmpty(),
+        modifier = Modifier.padding(start = 15.dp, end = 15.dp, top = 30.dp)
+    ) {
+        Text(
+            text = "No workers yet. Recruit one by clicking +Recruit",
+            textAlign = TextAlign.Center,
+            fontSize = 13.sp,
+            lineHeight = 16.sp
+        )
+    }
+    LazyColumn {
+        items(items = workerList) {
+            WorkerItem(it)
         }
     }
 }
@@ -159,7 +185,7 @@ fun WorkContainer() {
 @Composable
 fun PreviewWorkContainer() {
     Material3AppTheme() {
-        WorkContainer()
+        WorkContainer(listOf(), {}, {})
     }
 }
 
