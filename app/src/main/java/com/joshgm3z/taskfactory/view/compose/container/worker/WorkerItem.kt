@@ -32,26 +32,17 @@ fun WorkerItem(worker: Worker) {
                 .background(MaterialTheme.colorScheme.tertiary)
                 .padding(top = 5.dp, bottom = 5.dp)
         ) {
-            val (textName, pbLoading, textCount, iconClock) = createRefs()
-            Text(text = worker.name,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onTertiary,
-                modifier = Modifier
-                    .constrainAs(textName) {
-                        top.linkTo(parent.top)
-                        bottom.linkTo(parent.bottom)
-                        start.linkTo(parent.start, margin = 10.dp)
-                    }
-            )
+            val (textName, statusIcon, textCount) = createRefs()
+
             Surface(
                 color = Color.Transparent,
                 modifier = Modifier
                     .width(18.dp)
                     .height(18.dp)
-                    .constrainAs(pbLoading) {
-                        top.linkTo(textName.top)
-                        bottom.linkTo(textName.bottom)
-                        end.linkTo(textCount.start, margin = 10.dp)
+                    .constrainAs(statusIcon) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start, margin = 10.dp)
                     }) {
                 if (worker.status == Worker.STATUS_BUSY) {
                     CircularProgressIndicator(
@@ -68,6 +59,17 @@ fun WorkerItem(worker: Worker) {
                         modifier = Modifier.size(18.dp))
                 }
             }
+
+            Text(text = worker.name,
+                fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onTertiary,
+                modifier = Modifier
+                    .constrainAs(textName) {
+                        top.linkTo(statusIcon.top)
+                        bottom.linkTo(statusIcon.bottom)
+                        start.linkTo(statusIcon.end, margin = 10.dp)
+                    }
+            )
             Text(
                 text = "${worker.jobCount}",
                 fontSize = 13.sp,

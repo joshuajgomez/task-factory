@@ -33,8 +33,6 @@ fun TaskContainer(
 ) {
     Card(
         shape = RoundedCornerShape(Dimens.containerCardBorderRadius),
-        modifier = Modifier
-            .background(MaterialTheme.colorScheme.primary)
     ) {
         ConstraintLayout(
             modifier = Modifier

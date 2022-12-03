@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
 import com.joshgm3z.taskfactory.view.compose.container.log.LogContainer
 import com.joshgm3z.taskfactory.view.compose.container.task.TaskContainer
@@ -45,7 +46,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel) {
             val taskList = taskViewModel.taskList.observeAsState(listOf()).value
             // Task container
             Surface(
-                color = Color.Red,
+                color = Color.Transparent,
                 modifier = Modifier
                     .fillMaxWidth(0.5f)
                     .fillMaxHeight()
@@ -108,6 +109,6 @@ fun DashboardContainer(taskViewModel: TaskViewModel) {
 @Composable
 fun PreviewDashboard() {
     Material3AppTheme() {
-//        DashboardContainer(null)
+//        DashboardContainer()
     }
 }
