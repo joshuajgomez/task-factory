@@ -25,7 +25,7 @@ import com.joshgm3z.taskfactory.view.compose.container.worker.WorkContainer
 fun DashboardContainer(taskViewModel: TaskViewModel) {
     Surface {
         ConstraintLayout(
-            modifier = Modifier.background(MaterialTheme.colorScheme.primary)
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
         ) {
             val (textTitle, layoutTask, layoutLog, layoutWorker) = createRefs()
 

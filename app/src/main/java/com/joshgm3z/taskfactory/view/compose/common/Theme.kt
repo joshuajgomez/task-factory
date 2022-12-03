@@ -5,7 +5,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 
 val DarkColorPalette = darkColorScheme(
-    primary = Gray1,
+    background = Gray1,
     onPrimary = White1,
     secondary = Gray2,
     onSecondary = White1,
@@ -20,14 +20,14 @@ val DarkColorPalette = darkColorScheme(
 )
 
 val LightColorPalette = lightColorScheme(
-    primary = Gray6,
+    background = Gray6,
     onPrimary = Gray1,
     secondary = Gray7,
     onSecondary = Gray2,
     tertiary = Gray6,
     onTertiary = Black1,
     tertiaryContainer = Red2,
-    onTertiaryContainer = Gray2,
+    onTertiaryContainer = White1,
     primaryContainer = Green2,
     onPrimaryContainer = Black1,
     secondaryContainer = Red2,

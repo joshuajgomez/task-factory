@@ -1,15 +1,19 @@
 package com.joshgm3z.taskfactory.view.compose.container.task
 
+import android.content.res.Configuration.UI_MODE_NIGHT_NO
+import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.HourglassEmpty
+import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -36,19 +40,23 @@ fun TaskItem(task: Task) {
         ) {
             val (textName, textTime, pbLoading, textDuration, iconClock, textTag) = createRefs()
 
-            Text(text = task.description,
-                fontSize = 16.sp,
-                color = MaterialTheme.colorScheme.onTertiary,
+            Column(
                 modifier = Modifier
                     .constrainAs(textName) {
                         top.linkTo(parent.top)
                         start.linkTo(parent.start, margin = 5.dp)
-                    }
-            )
+                    }) {
+                Text(
+                    text = task.description,
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onTertiary,
+                )
+                StatusText(task)
+            }
             Text(
                 text = DateUtil.getPrettyDate(task.timeAdded),
                 fontSize = 10.sp,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier
                     .constrainAs(textTime) {
                         top.linkTo(textName.bottom, margin = 4.dp)
@@ -59,36 +67,24 @@ fun TaskItem(task: Task) {
                 color = Color.Transparent,
                 modifier = Modifier
                     .constrainAs(textTag) {
-                        top.linkTo(textTime.top)
                         bottom.linkTo(textTime.bottom)
                         start.linkTo(textTime.end, margin = 4.dp)
                     }) {
                 TypeTag(type = task.type)
             }
-//            CircularProgressIndicator(
-//                modifier = Modifier
-//                    .width(20.dp)
-//                    .height(20.dp)
-//                    .constrainAs(pbLoading) {
-//                        top.linkTo(textName.top)
-//                        bottom.linkTo(textName.bottom)
-//                        end.linkTo(parent.end)
-//                    }
-//            )
-            Icon(
-                imageVector = Icons.Filled.CheckCircle,
-                contentDescription = "finished",
+            Surface(
+                color = Color.Transparent,
                 modifier = Modifier
-                    .size(15.dp)
                     .constrainAs(pbLoading) {
-                        top.linkTo(textName.top)
-                        bottom.linkTo(textName.bottom)
+                        top.linkTo(textName.top, margin = 2.dp)
                         end.linkTo(parent.end)
-                    })
+                    }) {
+                StatusIcon(task.status)
+            }
             Text(
                 text = "${task.duration}",
                 fontSize = 10.sp,
-                color = MaterialTheme.colorScheme.onTertiaryContainer,
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier
                     .constrainAs(textDuration) {
                         end.linkTo(parent.end)
@@ -110,10 +106,64 @@ fun TaskItem(task: Task) {
     }
 }
 
-@Preview
+@Composable
+fun StatusText(task: Task) {
+    AnimatedVisibility(visible = task.status == Task.STATUS_ONGOING) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Filled.ManageAccounts,
+                contentDescription = "active worker",
+                modifier = Modifier.size(14.dp)
+            )
+            Spacer(modifier = Modifier.width(3.dp))
+            Text(
+                text = "In progress by ${task.activeWorkerName}",
+                fontSize = 13.sp
+            )
+        }
+    }
+}
+
+@Composable
+fun StatusIcon(status: Int) {
+    AnimatedVisibility(visible = status == Task.STATUS_ONGOING) {
+        CircularProgressIndicator(
+            modifier = Modifier.size(20.dp)
+        )
+    }
+    AnimatedVisibility(visible = status != Task.STATUS_ONGOING) {
+        Icon(
+            imageVector = when (status) {
+                Task.STATUS_FINISHED -> Icons.Filled.CheckCircle
+                else -> Icons.Filled.HourglassEmpty
+            },
+            contentDescription = "finished",
+            modifier = Modifier.size(15.dp)
+        )
+    }
+}
+
+@Preview(uiMode = UI_MODE_NIGHT_YES)
+@Preview(uiMode = UI_MODE_NIGHT_NO)
 @Composable
 fun PreviewTaskItem() {
+    val addedTask = RandomData.getTask()
+    addedTask.description = "Added task"
+    addedTask.status = Task.STATUS_ADDED
+
+    val ongoingTask = RandomData.getTask()
+    ongoingTask.description = "Ongoing task"
+    ongoingTask.status = Task.STATUS_ONGOING
+
+    val finishedTask = RandomData.getTask()
+    finishedTask.description = "Finished task"
+    finishedTask.status = Task.STATUS_FINISHED
+
     Material3AppTheme() {
-        TaskItem(task = RandomData.getTask())
+        Column {
+            TaskItem(task = addedTask)
+            TaskItem(task = ongoingTask)
+            TaskItem(task = finishedTask)
+        }
     }
 }
