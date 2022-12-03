@@ -9,7 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.joshgm3z.taskfactory.model.engine.ActiveTask
-import com.joshgm3z.taskfactory.model.engine.TaskEngine
+import com.joshgm3z.taskfactory.model.engine.TaskEngine_Old
 import com.joshgm3z.taskfactory.model.engine.TaskEngineCallback
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
@@ -23,7 +23,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class DashboardActivity : AppCompatActivity(), TaskEngineCallback {
 
-    private val mEngine = TaskEngine(this)
+    private val mEngine = TaskEngine_Old(this)
 
     private val mViewModel by viewModel<DashboardViewModel>()
 

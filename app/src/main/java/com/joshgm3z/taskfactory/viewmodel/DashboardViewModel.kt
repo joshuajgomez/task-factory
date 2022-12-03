@@ -51,10 +51,7 @@ class DashboardViewModel(
     fun onTaskStart(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
         viewModelScope.launch {
-            repo.runTaskStartTransaction(
-                activeTask.task,
-                activeTask.worker,
-            )
+            repo.runTaskStartTransaction(activeTask)
             repo.addActivityLog("${activeTask.worker.name} started working on ${activeTask.task.description}")
         }
     }
@@ -62,10 +59,7 @@ class DashboardViewModel(
     fun onTaskFinish(activeTask: ActiveTask) {
         Logger.log("activeTask = [${activeTask}]")
         viewModelScope.launch {
-            repo.runTaskFinishTransaction(
-                activeTask.task,
-                activeTask.worker,
-            )
+            repo.runTaskFinishTransaction(activeTask)
             repo.addActivityLog("${activeTask.worker.name} finished ${activeTask.task.description}")
         }
     }

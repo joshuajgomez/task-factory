@@ -6,12 +6,15 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
@@ -24,6 +27,9 @@ import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.view.compose.common.Dimens
 import com.joshgm3z.taskfactory.view.compose.common.Gray4
 import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
 fun LogContainer(
@@ -88,11 +94,21 @@ fun LogList(logList: List<ActivityLog>) {
             color = Gray4
         )
     }
-    LazyColumn {
-        items(items = logList) {
+    val listState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+    LazyColumn(
+        reverseLayout = true,
+        state = listState
+    ) {
+        items(items = logList, key = { it.id }) {
             LogItem(it)
         }
+        if (logList.isNotEmpty())
+            coroutineScope.launch {
+                listState.animateScrollToItem(logList.lastIndex)
+            }
     }
+
 }
 
 @Composable

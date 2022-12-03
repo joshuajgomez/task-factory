@@ -3,16 +3,12 @@ package com.joshgm3z.taskfactory.model.engine
 import android.os.CountDownTimer
 import android.util.Log
 import com.joshgm3z.taskfactory.common.utils.Logger
-import com.joshgm3z.taskfactory.model.TaskRepository
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.concurrent.CopyOnWriteArrayList
 
-class TaskEngine2(
-    private val repository: TaskRepository,
+class TaskEngine_Old(
+    private val mCallback: TaskEngineCallback,
 ) {
 
     companion object {
@@ -20,17 +16,13 @@ class TaskEngine2(
     }
 
     private val mMaxActiveJob = 3
-    private val mWorkingTime: Long = 10000
+    private val mWorkingTime: Long = 4000
     private val mActiveTaskList: CopyOnWriteArrayList<ActiveTask> = CopyOnWriteArrayList()
     private var mCurrentTasks: ArrayList<Task> = ArrayList()
     private var mCurrentWorkers: ArrayList<Worker> = ArrayList()
 
     init {
         Logger.entryLog()
-
-        repository.getAllTasks().observeForever { notifyOnTaskUpdate(it) }
-        repository.getAllWorkers().observeForever { notifyOnWorkerUpdate(it) }
-
         object : CountDownTimer(mWorkingTime, WORKING_INTERVAL) {
             override fun onTick(millisUntilFinished: Long) {
                 Logger.entryLog()
@@ -56,10 +48,7 @@ class TaskEngine2(
                     activeTask.task.status = Task.STATUS_FINISHED
                     activeTask.worker.status = Worker.STATUS_IDLE
                     activeTask.worker.jobCount++
-
-                    CoroutineScope(Dispatchers.Main).launch {
-                        repository.runTaskFinishTransaction(activeTask)
-                    }
+                    mCallback.onTaskFinish(activeTask)
 
                     updateActiveTasks()
                 }
@@ -101,10 +90,8 @@ class TaskEngine2(
             val activeTask = ActiveTask(task, worker, task.duration)
             mActiveTaskList.add(activeTask)
 
-            CoroutineScope(Dispatchers.Main).launch {
-                // notify UI
-                repository.runTaskStartTransaction(activeTask)
-            }
+            // notify UI
+            mCallback.onTaskStart(activeTask)
         } else {
             // tasks or workers not ready
         }

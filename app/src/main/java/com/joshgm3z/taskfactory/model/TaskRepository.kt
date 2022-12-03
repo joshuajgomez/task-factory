@@ -3,6 +3,7 @@ package com.joshgm3z.taskfactory.model
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.joshgm3z.taskfactory.common.utils.Logger
+import com.joshgm3z.taskfactory.model.engine.ActiveTask
 import com.joshgm3z.taskfactory.model.room.TaskFactoryDb
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
@@ -63,7 +64,9 @@ class TaskRepository(
         db.activityLogDao().clear()
     }
 
-    suspend fun runTaskStartTransaction(task: Task, worker: Worker) {
+    suspend fun runTaskStartTransaction(activeTask: ActiveTask) {
+        val task = activeTask.task
+        val worker = activeTask.worker
         Logger.log(
             Log.DEBUG,
             "task.is = [${task.id}], task.status = [${task.getStatusText()}], worker.id = [${worker.id}],"
@@ -71,9 +74,12 @@ class TaskRepository(
         )
         db.taskDao()
             .runTaskStartTransaction(task, worker)
+        addActivityLog("${activeTask.worker.name} started working on ${activeTask.task.description}")
     }
 
-    suspend fun runTaskFinishTransaction(task: Task, worker: Worker) {
+    suspend fun runTaskFinishTransaction(activeTask: ActiveTask) {
+        val task = activeTask.task
+        val worker = activeTask.worker
         Logger.log(
             Log.DEBUG,
             "task.id = [${task.id}], task.status = [${task.getStatusText()}], worker.id = [${worker.id}],"
@@ -81,5 +87,6 @@ class TaskRepository(
         )
         db.taskDao()
             .runTaskFinishTransaction(task, worker)
+        addActivityLog("${activeTask.worker.name} finished ${activeTask.task.description}")
     }
 }

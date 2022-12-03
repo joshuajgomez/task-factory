@@ -4,9 +4,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.joshgm3z.taskfactory.common.utils.RandomData
 import com.joshgm3z.taskfactory.model.TaskRepository
+import com.joshgm3z.taskfactory.model.engine.TaskEngine2
 import kotlinx.coroutines.launch
 
-class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
+class TaskViewModel(
+    private val repository: TaskRepository,
+) : ViewModel() {
+
+    init {
+        TaskEngine2(repository)
+    }
 
     val taskList = repository.getAllTasks()
 
