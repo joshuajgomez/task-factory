@@ -7,14 +7,17 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.joshgm3z.taskfactory.view.compose.DashboardContainer
+import com.joshgm3z.taskfactory.view.compose.TaskViewModel
 import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             Material3AppTheme {
-                DashboardContainer()
+                val viewModel by viewModel<TaskViewModel>()
+                DashboardContainer(viewModel)
             }
         }
     }
@@ -25,6 +28,6 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun DefaultPreview() {
     Material3AppTheme {
-        DashboardContainer()
+//        DashboardContainer()
     }
 }

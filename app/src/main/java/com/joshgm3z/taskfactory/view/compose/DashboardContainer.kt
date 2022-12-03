@@ -9,20 +9,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
 import com.joshgm3z.taskfactory.view.compose.container.log.LogContainer
 import com.joshgm3z.taskfactory.view.compose.container.task.TaskContainer
 import com.joshgm3z.taskfactory.view.compose.container.worker.WorkContainer
 
 @Composable
-fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
+fun DashboardContainer(taskViewModel: TaskViewModel) {
     Surface {
         ConstraintLayout(
             modifier = Modifier.background(MaterialTheme.colorScheme.primary)
@@ -42,6 +42,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                     }
             )
 
+            val taskList = taskViewModel.taskList.observeAsState(listOf()).value
             // Task container
             Surface(
                 color = Color.Red,
@@ -54,12 +55,13 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                         bottom.linkTo(parent.bottom)
                     }) {
                 TaskContainer(
-                    taskList = taskViewModel.taskList,
+                    taskList = taskList,
                     onTasksClearClick = { taskViewModel.onClearTasksClick() },
                     onAddTaskClick = { taskViewModel.onAddTaskClick() },
                 )
             }
 
+            val workerList = taskViewModel.workerList.observeAsState(listOf()).value
             // Workers container
             Surface(
                 color = Color.Transparent,
@@ -73,12 +75,13 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                     }
             ) {
                 WorkContainer(
-                    workerList = taskViewModel.workerList,
+                    workerList = workerList,
                     onWorkersClearClick = { taskViewModel.onClearWorkersClick() },
                     onAddWorkerClick = { taskViewModel.onAddWorkerClick() }
                 )
             }
 
+            val logList = taskViewModel.logList.observeAsState(listOf()).value
             // Log container
             Surface(
                 color = Color.Transparent,
@@ -93,7 +96,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
                     }
             ) {
                 LogContainer(
-                    logList = taskViewModel.logList,
+                    logList = logList,
                     onClearLogClick = { taskViewModel.onClearLogClick() })
             }
         }
@@ -105,6 +108,6 @@ fun DashboardContainer(taskViewModel: TaskViewModel = viewModel()) {
 @Composable
 fun PreviewDashboard() {
     Material3AppTheme() {
-        DashboardContainer()
+//        DashboardContainer(null)
     }
 }

@@ -4,6 +4,7 @@ import androidx.room.Room
 import com.joshgm3z.taskfactory.model.TaskRepository
 import com.joshgm3z.taskfactory.model.room.TaskFactoryDb
 import com.joshgm3z.taskfactory.view.activityLog.ActivityLogAdapter
+import com.joshgm3z.taskfactory.view.compose.TaskViewModel
 import com.joshgm3z.taskfactory.view.task.TaskAdapter
 import com.joshgm3z.taskfactory.view.worker.WorkerAdapter
 import com.joshgm3z.taskfactory.viewmodel.DashboardViewModel
@@ -22,7 +23,7 @@ val appModule = module {
         TaskRepository(get())
     }
     viewModel {
-        DashboardViewModel(get())
+        TaskViewModel(get())
     }
     single {
         TaskAdapter()

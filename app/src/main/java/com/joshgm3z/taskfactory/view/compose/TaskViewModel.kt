@@ -1,52 +1,55 @@
 package com.joshgm3z.taskfactory.view.compose
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.joshgm3z.taskfactory.common.utils.RandomData
-import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
-import com.joshgm3z.taskfactory.model.room.entity.Task
-import com.joshgm3z.taskfactory.model.room.entity.Worker
+import com.joshgm3z.taskfactory.model.TaskRepository
+import kotlinx.coroutines.launch
 
-class TaskViewModel : ViewModel() {
+class TaskViewModel(private val repository: TaskRepository) : ViewModel() {
 
-    val taskList = mutableStateListOf<Task>()
+    val taskList = repository.getAllTasks()
 
-    val workerList = mutableStateListOf<Worker>()
+    val workerList = repository.getAllWorkers()
 
-    val logList = mutableStateListOf<ActivityLog>()
+    val logList = repository.getActivityLog()
 
     fun onAddTaskClick() {
         val task = RandomData.getTask()
-        taskList.add(task)
-        logList.add(
-            ActivityLog(
+        viewModelScope.launch {
+            repository.addTask(task)
+            repository.addActivityLog(
                 description = "New task added: ${task.description}",
-                dateFinished = System.currentTimeMillis()
             )
-        )
+        }
     }
 
     fun onAddWorkerClick() {
-        val worker = Worker(RandomData.getWorkerName())
-        workerList.add(worker)
-        logList.add(
-            ActivityLog(
-                description = "New worker recruited: ${worker.name}",
-                dateFinished = System.currentTimeMillis()
+        val worker = RandomData.getWorkerName()
+        viewModelScope.launch {
+            repository.addWorker(worker)
+            repository.addActivityLog(
+                description = "New worker recruited: $worker",
             )
-        )
+        }
     }
 
     fun onClearTasksClick() {
-        taskList.clear()
+        viewModelScope.launch {
+            repository.clearTaskList()
+        }
     }
 
     fun onClearWorkersClick() {
-        workerList.clear()
+        viewModelScope.launch {
+            repository.clearWorkerList()
+        }
     }
 
     fun onClearLogClick() {
-        logList.clear()
+        viewModelScope.launch {
+            repository.clearActivityLog()
+        }
     }
 
 }
