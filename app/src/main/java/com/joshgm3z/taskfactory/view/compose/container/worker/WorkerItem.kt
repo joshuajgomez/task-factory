@@ -24,7 +24,7 @@ fun WorkerItem(worker: Worker) {
     Card(
         shape = RoundedCornerShape(2.dp),
         modifier = Modifier
-            .padding(bottom = 3.dp, start = 3.dp, end = 3.dp)
+            .padding(start = 3.dp, end = 3.dp)
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -101,7 +101,7 @@ fun PreviewWorkerItem() {
     workerBusy.status = Worker.STATUS_BUSY
 
     Material3AppTheme {
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
             WorkerItem(worker = workerIdle)
             WorkerItem(worker = workerBusy)
         }

@@ -25,8 +25,8 @@ class Task(
     var activeWorkerName: String = ""
 
     companion object {
-        const val STATUS_ADDED = 0
-        const val STATUS_ONGOING = 1
+        const val STATUS_ONGOING = 0
+        const val STATUS_ADDED = 1
         const val STATUS_FINISHED = 2
 
         const val TYPE_COOKING = 0

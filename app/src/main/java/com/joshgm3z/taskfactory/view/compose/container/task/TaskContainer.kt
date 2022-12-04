@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import com.joshgm3z.taskfactory.common.utils.RandomData
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.view.compose.common.Dimens
 import com.joshgm3z.taskfactory.view.compose.common.*
@@ -107,8 +108,8 @@ fun TaskList(taskList: List<Task>) {
             color = Gray4
         )
     }
-    LazyColumn {
-        items(items = taskList) {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+        items(items = taskList.sortedBy { it.status }) {
             TaskItem(it)
         }
     }
@@ -118,15 +119,24 @@ fun TaskList(taskList: List<Task>) {
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO, showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewTaskContainer() {
+    val list = RandomData.getTaskList()
+    list[3].status = Task.STATUS_ONGOING
+    list[3].activeWorkerName = "Someone"
+
+    list[4].status = Task.STATUS_ONGOING
+    list[4].activeWorkerName = "Someone"
+
+    list[5].status = Task.STATUS_FINISHED
+    list[4].status = Task.STATUS_FINISHED
     Material3AppTheme {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primary)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(all = 20.dp)
         ) {
             Surface(modifier = Modifier.fillMaxWidth(0.55f)) {
-                TaskContainer(listOf(), {}, {})
+                TaskContainer(list, {}, {})
             }
             Surface(modifier = Modifier.fillMaxWidth(0.5f)) {}
         }

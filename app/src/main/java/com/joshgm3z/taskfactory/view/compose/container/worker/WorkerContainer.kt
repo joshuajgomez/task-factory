@@ -108,8 +108,8 @@ fun WorkerList(workerList: List<Worker>) {
             color = Gray4
         )
     }
-    LazyColumn {
-        items(items = workerList) {
+    LazyColumn(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+        items(items = workerList.sortedBy { it.status }) {
             WorkerItem(it)
         }
     }

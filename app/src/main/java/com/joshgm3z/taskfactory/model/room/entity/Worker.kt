@@ -18,8 +18,8 @@ class Worker(@ColumnInfo(name = "name") var name: String) {
 
     companion object {
 
-        const val STATUS_IDLE = 0
-        const val STATUS_BUSY = 1
+        const val STATUS_BUSY = 0
+        const val STATUS_IDLE = 1
 
     }
 

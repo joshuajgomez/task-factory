@@ -30,7 +30,7 @@ fun TaskItem(task: Task) {
     Card(
         shape = RoundedCornerShape(5.dp),
         modifier = Modifier
-            .padding(bottom = 3.dp, start = 3.dp, end = 3.dp)
+            .padding(start = 3.dp, end = 3.dp)
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -160,7 +160,7 @@ fun PreviewTaskItem() {
     finishedTask.status = Task.STATUS_FINISHED
 
     Material3AppTheme() {
-        Column {
+        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
             TaskItem(task = addedTask)
             TaskItem(task = ongoingTask)
             TaskItem(task = finishedTask)
