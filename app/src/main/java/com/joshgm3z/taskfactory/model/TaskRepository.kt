@@ -30,7 +30,7 @@ class TaskRepository(
     suspend fun addActivityLog(description: String) {
         Logger.log(Log.DEBUG, "description = [${description}]")
         db.activityLogDao().insert(
-            ActivityLog(description, getCurrentTime())
+            ActivityLog(description = description, dateFinished = getCurrentTime())
         )
     }
 

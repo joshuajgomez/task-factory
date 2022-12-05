@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import com.joshgm3z.taskfactory.view.compose.DashboardContainer
 import com.joshgm3z.taskfactory.view.compose.TaskViewModel
@@ -17,7 +18,18 @@ class MainActivity : ComponentActivity() {
         setContent {
             Material3AppTheme {
                 val viewModel by viewModel<TaskViewModel>()
-                DashboardContainer(viewModel)
+                val taskList = viewModel.taskList.observeAsState(listOf()).value
+                val workerList = viewModel.workerList.observeAsState(listOf()).value
+                val logList = viewModel.logList.observeAsState(listOf()).value
+                DashboardContainer(
+                    taskList = taskList,
+                    workerList = workerList,
+                    logList = logList,
+                    onClearLogClick = { viewModel.onClearLogClick() },
+                    onClearTasksClick = { viewModel.onClearTasksClick() },
+                    onClearWorkersClick = { viewModel.onClearWorkersClick() },
+                    onAddWorkerClick = { viewModel.onAddWorkerClick() },
+                ) { viewModel.onAddTaskClick() }
             }
         }
     }

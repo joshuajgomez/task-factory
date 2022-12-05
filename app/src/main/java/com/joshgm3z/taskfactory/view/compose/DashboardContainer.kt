@@ -9,21 +9,32 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.joshgm3z.taskfactory.common.utils.RandomData
+import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
+import com.joshgm3z.taskfactory.model.room.entity.Task
+import com.joshgm3z.taskfactory.model.room.entity.Worker
 import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
 import com.joshgm3z.taskfactory.view.compose.container.log.LogContainer
 import com.joshgm3z.taskfactory.view.compose.container.task.TaskContainer
 import com.joshgm3z.taskfactory.view.compose.container.worker.WorkContainer
 
 @Composable
-fun DashboardContainer(taskViewModel: TaskViewModel) {
+fun DashboardContainer(
+    taskList: List<Task>,
+    workerList: List<Worker>,
+    logList: List<ActivityLog>,
+    onClearTasksClick: () -> Unit,
+    onClearWorkersClick: () -> Unit,
+    onClearLogClick: () -> Unit,
+    onAddWorkerClick: () -> Unit,
+    onAddTaskClick: () -> Unit,
+) {
     Surface {
         ConstraintLayout(
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
@@ -43,7 +54,6 @@ fun DashboardContainer(taskViewModel: TaskViewModel) {
                     }
             )
 
-            val taskList = taskViewModel.taskList.observeAsState(listOf()).value
             // Task container
             Surface(
                 color = Color.Transparent,
@@ -57,12 +67,11 @@ fun DashboardContainer(taskViewModel: TaskViewModel) {
                     }) {
                 TaskContainer(
                     taskList = taskList,
-                    onTasksClearClick = { taskViewModel.onClearTasksClick() },
-                    onAddTaskClick = { taskViewModel.onAddTaskClick() },
+                    onTasksClearClick = { onClearTasksClick() },
+                    onAddTaskClick = { onAddTaskClick() },
                 )
             }
 
-            val workerList = taskViewModel.workerList.observeAsState(listOf()).value
             // Workers container
             Surface(
                 color = Color.Transparent,
@@ -77,12 +86,11 @@ fun DashboardContainer(taskViewModel: TaskViewModel) {
             ) {
                 WorkContainer(
                     workerList = workerList,
-                    onWorkersClearClick = { taskViewModel.onClearWorkersClick() },
-                    onAddWorkerClick = { taskViewModel.onAddWorkerClick() }
+                    onWorkersClearClick = { onClearWorkersClick() },
+                    onAddWorkerClick = { onAddWorkerClick() }
                 )
             }
 
-            val logList = taskViewModel.logList.observeAsState(listOf()).value
             // Log container
             Surface(
                 color = Color.Transparent,
@@ -98,7 +106,7 @@ fun DashboardContainer(taskViewModel: TaskViewModel) {
             ) {
                 LogContainer(
                     logList = logList,
-                    onClearLogClick = { taskViewModel.onClearLogClick() })
+                    onClearLogClick = { onClearLogClick() })
             }
         }
     }
@@ -109,6 +117,18 @@ fun DashboardContainer(taskViewModel: TaskViewModel) {
 @Composable
 fun PreviewDashboard() {
     Material3AppTheme() {
-//        DashboardContainer()
+        val taskList = RandomData.getTaskList()
+        val workerList = RandomData.getWorkerList()
+        val logList = RandomData.getActivityList()
+        DashboardContainer(
+            taskList = taskList,
+            workerList = workerList,
+            logList = logList,
+            onAddTaskClick = {},
+            onAddWorkerClick = {},
+            onClearWorkersClick = {},
+            onClearTasksClick = {},
+            onClearLogClick = {},
+        )
     }
 }
