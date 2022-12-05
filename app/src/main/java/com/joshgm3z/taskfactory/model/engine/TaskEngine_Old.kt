@@ -2,7 +2,7 @@ package com.joshgm3z.taskfactory.model.engine
 
 import android.os.CountDownTimer
 import android.util.Log
-import com.joshgm3z.taskfactory.common.utils.Logger
+import com.joshgm3z.taskfactory.utils.Logger
 import com.joshgm3z.taskfactory.model.room.entity.Task
 import com.joshgm3z.taskfactory.model.room.entity.Worker
 import java.util.concurrent.CopyOnWriteArrayList

@@ -2,7 +2,7 @@ package com.joshgm3z.taskfactory.model
 
 import android.util.Log
 import androidx.lifecycle.LiveData
-import com.joshgm3z.taskfactory.common.utils.Logger
+import com.joshgm3z.taskfactory.utils.Logger
 import com.joshgm3z.taskfactory.model.engine.ActiveTask
 import com.joshgm3z.taskfactory.model.room.TaskFactoryDb
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog

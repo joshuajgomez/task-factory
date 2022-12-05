@@ -7,9 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
-import com.joshgm3z.taskfactory.view.compose.DashboardContainer
-import com.joshgm3z.taskfactory.view.compose.TaskViewModel
-import com.joshgm3z.taskfactory.view.compose.common.Material3AppTheme
+import com.joshgm3z.taskfactory.view.DashboardContainer
+import com.joshgm3z.taskfactory.viewmodel.TaskViewModel
+import com.joshgm3z.taskfactory.view.common.Material3AppTheme
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
