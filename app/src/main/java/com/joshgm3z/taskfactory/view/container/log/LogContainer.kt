@@ -1,6 +1,7 @@
 package com.joshgm3z.taskfactory.view.container.log
 
 import android.content.res.Configuration
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,8 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.joshgm3z.taskfactory.utils.RandomData
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
-import com.joshgm3z.taskfactory.view.common.Dimens
-import com.joshgm3z.taskfactory.view.common.Gray4
+import com.joshgm3z.taskfactory.view.common.*
 import com.joshgm3z.taskfactory.view.common.Material3AppTheme
 import kotlinx.coroutines.launch
 
@@ -33,8 +33,9 @@ fun LogContainer(
     logList: List<ActivityLog>,
     onClearLogClick: () -> Unit,
 ) {
+    Log.w("Josh", "Re-compose: LogContainer")
     Card(
-        shape = RoundedCornerShape(Dimens.containerCardBorderRadius)
+        shape = RoundedCornerShape(containerCardBorderRadius)
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -46,10 +47,10 @@ fun LogContainer(
                 text = "Activity Log",
                 modifier = Modifier
                     .constrainAs(textTitle) {
-                        top.linkTo(parent.top, margin = Dimens.titleMarginTop)
-                        start.linkTo(parent.start, margin = Dimens.titleMarginStart)
+                        top.linkTo(parent.top, margin = titleMarginTop)
+                        start.linkTo(parent.start, margin = titleMarginStart)
                     },
-                fontSize = Dimens.titleFontSize,
+                fontSize = titleFontSize,
                 color = MaterialTheme.colorScheme.onSecondary
             )
 
@@ -57,18 +58,18 @@ fun LogContainer(
                 imageVector = Icons.Outlined.Delete,
                 contentDescription = "Localized description",
                 modifier = Modifier
-                    .size(Dimens.deleteIconSize)
+                    .size(deleteIconSize)
                     .constrainAs(deleteIcon) {
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
-                        end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
+                        end.linkTo(parent.end, margin = deleteIconMarginEnd)
                     }
                     .clickable { onClearLogClick() })
             Surface(
                 color = Color.Transparent,
                 modifier = Modifier
                     .constrainAs(list) {
-                        top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
+                        top.linkTo(textTitle.bottom, margin = listMarginTop)
                         start.linkTo(parent.start)
                     }) {
                 LogList(logList = logList)

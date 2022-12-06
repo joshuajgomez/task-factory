@@ -2,6 +2,7 @@ package com.joshgm3z.taskfactory.view
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,12 +10,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.joshgm3z.taskfactory.utils.RandomData
 import com.joshgm3z.taskfactory.model.room.entity.ActivityLog
 import com.joshgm3z.taskfactory.model.room.entity.Task
@@ -26,15 +31,16 @@ import com.joshgm3z.taskfactory.view.container.worker.WorkContainer
 
 @Composable
 fun DashboardContainer(
-    taskList: List<Task>,
-    workerList: List<Worker>,
-    logList: List<ActivityLog>,
+    taskList: LiveData<List<Task>>,
+    workerList: LiveData<List<Worker>>,
+    logList: LiveData<List<ActivityLog>>,
     onClearTasksClick: () -> Unit,
     onClearWorkersClick: () -> Unit,
     onClearLogClick: () -> Unit,
     onAddWorkerClick: () -> Unit,
     onAddTaskClick: () -> Unit,
 ) {
+    Log.w("Josh", "Re-compose: DashboardContainer")
     Surface {
         ConstraintLayout(
             modifier = Modifier.background(MaterialTheme.colorScheme.background)
@@ -65,8 +71,11 @@ fun DashboardContainer(
                         start.linkTo(parent.start, margin = 3.dp)
                         bottom.linkTo(parent.bottom)
                     }) {
+                val tasks =
+                    if (isInPreview()) RandomData.getTaskList()
+                    else taskList.observeAsState(listOf()).value
                 TaskContainer(
-                    taskList = taskList,
+                    taskList = tasks,
                     onTasksClearClick = { onClearTasksClick() },
                     onAddTaskClick = { onAddTaskClick() },
                 )
@@ -84,8 +93,11 @@ fun DashboardContainer(
                         end.linkTo(parent.end, margin = 3.dp)
                     }
             ) {
+                val workers =
+                    if (isInPreview()) RandomData.getWorkerList()
+                    else workerList.observeAsState(listOf()).value
                 WorkContainer(
-                    workerList = workerList,
+                    workerList = workers,
                     onWorkersClearClick = { onClearWorkersClick() },
                     onAddWorkerClick = { onAddWorkerClick() }
                 )
@@ -104,26 +116,29 @@ fun DashboardContainer(
                         bottom.linkTo(parent.bottom)
                     }
             ) {
+                val logs =
+                    if (isInPreview()) RandomData.getActivityList()
+                    else logList.observeAsState(listOf()).value
                 LogContainer(
-                    logList = logList,
+                    logList = logs,
                     onClearLogClick = { onClearLogClick() })
             }
         }
     }
 }
 
+@Composable
+fun isInPreview(): Boolean = LocalInspectionMode.current
+
 @Preview(uiMode = UI_MODE_NIGHT_YES, showBackground = true, showSystemUi = true)
 @Preview(uiMode = UI_MODE_NIGHT_NO, showBackground = true, showSystemUi = true)
 @Composable
 fun PreviewDashboard() {
-    Material3AppTheme() {
-        val taskList = RandomData.getTaskList()
-        val workerList = RandomData.getWorkerList()
-        val logList = RandomData.getActivityList()
+    Material3AppTheme {
         DashboardContainer(
-            taskList = taskList,
-            workerList = workerList,
-            logList = logList,
+            taskList = MutableLiveData(),
+            workerList = MutableLiveData(),
+            logList = MutableLiveData(),
             onAddTaskClick = {},
             onAddWorkerClick = {},
             onClearWorkersClick = {},

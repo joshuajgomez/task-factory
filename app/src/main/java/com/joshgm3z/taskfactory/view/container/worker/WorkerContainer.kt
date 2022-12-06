@@ -2,6 +2,7 @@ package com.joshgm3z.taskfactory.view.container.worker
 
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -23,9 +24,9 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import com.joshgm3z.taskfactory.utils.RandomData
 import com.joshgm3z.taskfactory.model.room.entity.Worker
-import com.joshgm3z.taskfactory.view.common.Dimens
 import com.joshgm3z.taskfactory.view.common.Gray4
 import com.joshgm3z.taskfactory.view.common.Material3AppTheme
+import com.joshgm3z.taskfactory.view.common.*
 
 @Composable
 fun WorkContainer(
@@ -33,8 +34,9 @@ fun WorkContainer(
     onWorkersClearClick: () -> Unit,
     onAddWorkerClick: () -> Unit,
 ) {
+    Log.w("Josh", "Re-compose: WorkContainer")
     Card(
-        shape = RoundedCornerShape(Dimens.containerCardBorderRadius)
+        shape = RoundedCornerShape(containerCardBorderRadius)
     ) {
         ConstraintLayout(
             modifier = Modifier
@@ -47,16 +49,16 @@ fun WorkContainer(
                 text = "Workers(${workerList.size})",
                 modifier = Modifier
                     .constrainAs(textTitle) {
-                        start.linkTo(parent.start, margin = Dimens.titleMarginStart)
-                        top.linkTo(parent.top, margin = Dimens.titleMarginTop)
+                        start.linkTo(parent.start, margin = titleMarginStart)
+                        top.linkTo(parent.top, margin = titleMarginTop)
                     },
-                fontSize = Dimens.titleFontSize,
+                fontSize = titleFontSize,
                 color = MaterialTheme.colorScheme.onSecondary
             )
             Text(
                 text = "+Recruit",
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontSize = Dimens.buttonFontSize,
+                fontSize = buttonFontSize,
                 modifier = Modifier
                     .constrainAs(addButton) {
                         end.linkTo(deleteIcon.start, margin = 2.dp)
@@ -74,9 +76,9 @@ fun WorkContainer(
                 imageVector = Icons.Outlined.Delete,
                 contentDescription = "Localized description",
                 modifier = Modifier
-                    .size(Dimens.deleteIconSize)
+                    .size(deleteIconSize)
                     .constrainAs(deleteIcon) {
-                        end.linkTo(parent.end, margin = Dimens.deleteIconMarginEnd)
+                        end.linkTo(parent.end, margin = deleteIconMarginEnd)
                         top.linkTo(textTitle.top)
                         bottom.linkTo(textTitle.bottom)
                     }
@@ -85,7 +87,7 @@ fun WorkContainer(
                 color = Color.Transparent,
                 modifier = Modifier
                     .constrainAs(list) {
-                        top.linkTo(textTitle.bottom, margin = Dimens.listMarginTop)
+                        top.linkTo(textTitle.bottom, margin = listMarginTop)
                         start.linkTo(parent.start)
                     }) {
                 WorkerList(workerList = workerList)

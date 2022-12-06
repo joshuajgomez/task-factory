@@ -3,6 +3,8 @@ package com.joshgm3z.taskfactory.view.common
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 val DarkColorPalette = darkColorScheme(
     background = Gray1,
@@ -46,6 +48,17 @@ fun Material3AppTheme(
 //        darkTheme -> DarkColorPalette
 //        else -> TODO()
 //    }
+
+    val systemUiController = rememberSystemUiController()
+    if(darkTheme){
+        systemUiController.setSystemBarsColor(
+            color = Color.Transparent
+        )
+    }else{
+        systemUiController.setSystemBarsColor(
+            color = Color.White
+        )
+    }
 
     val colors = when {
         darkTheme -> DarkColorPalette
