@@ -31,9 +31,9 @@ import com.joshgm3z.taskfactory.view.container.worker.WorkContainer
 
 @Composable
 fun DashboardContainer(
-    taskList: LiveData<List<Task>>,
-    workerList: LiveData<List<Worker>>,
-    logList: LiveData<List<ActivityLog>>,
+    taskListLive: LiveData<List<Task>>,
+    workerListLive: LiveData<List<Worker>>,
+    logListLive: LiveData<List<ActivityLog>>,
     onClearTasksClick: () -> Unit,
     onClearWorkersClick: () -> Unit,
     onClearLogClick: () -> Unit,
@@ -71,11 +71,11 @@ fun DashboardContainer(
                         start.linkTo(parent.start, margin = 3.dp)
                         bottom.linkTo(parent.bottom)
                     }) {
-                val tasks =
+                val taskList =
                     if (isInPreview()) RandomData.getTaskList()
-                    else taskList.observeAsState(listOf()).value
+                    else taskListLive.observeAsState(listOf()).value
                 TaskContainer(
-                    taskList = tasks,
+                    taskList = taskList,
                     onTasksClearClick = { onClearTasksClick() },
                     onAddTaskClick = { onAddTaskClick() },
                 )
@@ -93,11 +93,11 @@ fun DashboardContainer(
                         end.linkTo(parent.end, margin = 3.dp)
                     }
             ) {
-                val workers =
+                val workerList =
                     if (isInPreview()) RandomData.getWorkerList()
-                    else workerList.observeAsState(listOf()).value
+                    else workerListLive.observeAsState(listOf()).value
                 WorkContainer(
-                    workerList = workers,
+                    workerList = workerList,
                     onWorkersClearClick = { onClearWorkersClick() },
                     onAddWorkerClick = { onAddWorkerClick() }
                 )
@@ -116,11 +116,11 @@ fun DashboardContainer(
                         bottom.linkTo(parent.bottom)
                     }
             ) {
-                val logs =
+                val logList =
                     if (isInPreview()) RandomData.getActivityList()
-                    else logList.observeAsState(listOf()).value
+                    else logListLive.observeAsState(listOf()).value
                 LogContainer(
-                    logList = logs,
+                    logList = logList,
                     onClearLogClick = { onClearLogClick() })
             }
         }
@@ -136,9 +136,9 @@ fun isInPreview(): Boolean = LocalInspectionMode.current
 fun PreviewDashboard() {
     Material3AppTheme {
         DashboardContainer(
-            taskList = MutableLiveData(),
-            workerList = MutableLiveData(),
-            logList = MutableLiveData(),
+            taskListLive = MutableLiveData(),
+            workerListLive = MutableLiveData(),
+            logListLive = MutableLiveData(),
             onAddTaskClick = {},
             onAddWorkerClick = {},
             onClearWorkersClick = {},

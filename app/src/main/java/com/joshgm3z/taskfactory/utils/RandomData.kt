@@ -104,6 +104,14 @@ class RandomData {
             list.add(getTask())
             list.add(getTask())
             list.add(getTask())
+            list.add(getTask())
+            list.add(getTask())
+            list.add(getTask())
+            list.add(getTask())
+            list.add(getTask())
+            list.add(getTask())
+            list.add(getTask())
+            list.add(getTask())
             return list
         }
 
@@ -128,27 +136,27 @@ class RandomData {
             val list: ArrayList<ActivityLog> = arrayListOf()
             list.add(ActivityLog(id = 1, description = "New worker added: ${getWorkerName()}"))
             list.add(ActivityLog(id = 2,
-                description = "${getWorkerName()} completed task ${getTaskName()})"))
+                description = "${getWorkerName()} completed task ${getTaskName()}"))
             list.add(ActivityLog(id = 3, description = "New worker added: ${getWorkerName()}"))
             list.add(ActivityLog(id = 4, description = "New task added: ${getTaskName()}"))
             list.add(ActivityLog(id = 5,
-                description = "${getWorkerName()} started working on task ${getTaskName()})"))
+                description = "${getWorkerName()} started working on task ${getTaskName()}"))
             list.add(ActivityLog(id = 6, description = "New task added: ${getTaskName()}"))
             list.add(ActivityLog(id = 7,
-                description = "${getWorkerName()} started working on task ${getTaskName()})"))
+                description = "${getWorkerName()} started working on task ${getTaskName()}"))
             list.add(ActivityLog(id = 8,
-                description = "${getWorkerName()} started working on task ${getTaskName()})"))
+                description = "${getWorkerName()} started working on task ${getTaskName()}"))
             list.add(ActivityLog(id = 9, description = "New task added: ${getTaskName()}"))
             list.add(ActivityLog(id = 10,
-                description = "${getWorkerName()} started working on task ${getTaskName()})"))
+                description = "${getWorkerName()} started working on task ${getTaskName()}"))
             list.add(ActivityLog(id = 11, description = "New task added: ${getTaskName()}"))
             list.add(ActivityLog(id = 12,
-                description = "${getWorkerName()} completed task ${getTaskName()})"))
+                description = "${getWorkerName()} completed task ${getTaskName()}"))
             list.add(ActivityLog(id = 13,
-                description = "${getWorkerName()} completed task ${getTaskName()})"))
+                description = "${getWorkerName()} completed task ${getTaskName()}"))
             list.add(ActivityLog(id = 14, description = "New task added: ${getTaskName()}"))
             list.add(ActivityLog(id = 15,
-                description = "${getWorkerName()} completed task ${getTaskName()})"))
+                description = "${getWorkerName()} completed task ${getTaskName()}"))
             list.add(ActivityLog(id = 16, description = "New worker added: ${getWorkerName()}"))
             list.add(ActivityLog(id = 17, description = "New worker added: ${getWorkerName()}"))
             return list

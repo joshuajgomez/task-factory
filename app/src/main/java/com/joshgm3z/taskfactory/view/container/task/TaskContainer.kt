@@ -1,8 +1,11 @@
+@file:OptIn(ExperimentalFoundationApi::class)
+
 package com.joshgm3z.taskfactory.view.container.task
 
 import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -43,7 +46,7 @@ fun TaskContainer(
         ) {
             val (textTitle, list, addButton, deleteIcon) = createRefs()
             Text(
-                text = "Tasks(${taskList.size})",
+                text = "Tasks (${taskList.size})",
                 modifier = Modifier
                     .constrainAs(textTitle) {
                         start.linkTo(parent.start, margin = titleMarginStart)
@@ -109,9 +112,19 @@ fun TaskList(taskList: List<Task>) {
             color = Gray4
         )
     }
+    val groupedBy = taskList.sortedBy { it.status }.groupBy { it.status }
     LazyColumn(verticalArrangement = Arrangement.spacedBy(3.dp)) {
-        items(items = taskList.sortedBy { it.status }) {
-            TaskItem(it)
+        groupedBy.forEach { (taskStatus, taskListPart) ->
+            stickyHeader {
+                Text(
+                    text = "${Task.getStatusText(taskStatus)} (${taskListPart.size})",
+                    fontSize = 10.sp,
+                    modifier = Modifier.padding(start = 5.dp)
+                )
+            }
+            items(items = taskListPart) {
+                TaskItem(it)
+            }
         }
     }
 }
@@ -128,7 +141,7 @@ fun PreviewTaskContainer() {
     list[4].activeWorkerName = "Someone"
 
     list[5].status = Task.STATUS_FINISHED
-    list[4].status = Task.STATUS_FINISHED
+    list[5].status = Task.STATUS_FINISHED
     Material3AppTheme {
         Row(
             modifier = Modifier

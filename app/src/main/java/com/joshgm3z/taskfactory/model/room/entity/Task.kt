@@ -45,14 +45,16 @@ class Task(
             TYPE_ERRAND -> "Errand"
             else -> "UNKNOWN"
         }
+
+        fun getStatusText(taskStatus: Int): String = when (taskStatus) {
+            STATUS_ADDED -> "ADDED"
+            STATUS_ONGOING -> "ONGOING"
+            STATUS_FINISHED -> "FINISHED"
+            else -> "UNKNOWN"
+        }
     }
 
-    fun getStatusText(): String = when (status) {
-        STATUS_ADDED -> "ADDED"
-        STATUS_ONGOING -> "ONGOING"
-        STATUS_FINISHED -> "FINISHED"
-        else -> "UNKNOWN"
-    }
+    fun getStatusText(): String = Companion.getStatusText(status)
 
     fun getTypeText(): String = getTypeText(type)
 

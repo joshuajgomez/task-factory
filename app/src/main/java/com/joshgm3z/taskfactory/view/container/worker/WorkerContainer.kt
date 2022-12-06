@@ -42,7 +42,7 @@ fun WorkContainer(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.secondary)
                 .fillMaxSize(1f)
-                .padding(start = 5.dp)
+                .padding(start = 1.dp)
         ) {
             val (textTitle, list, addButton, deleteIcon) = createRefs()
             Text(

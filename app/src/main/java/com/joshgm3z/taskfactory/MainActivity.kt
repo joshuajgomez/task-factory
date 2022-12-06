@@ -18,9 +18,9 @@ class MainActivity : ComponentActivity() {
             Material3AppTheme {
                 val viewModel by viewModel<TaskViewModel>()
                 DashboardContainer(
-                    taskList = viewModel.taskList,
-                    workerList = viewModel.workerList,
-                    logList = viewModel.logList,
+                    taskListLive = viewModel.taskList,
+                    workerListLive = viewModel.workerList,
+                    logListLive = viewModel.logList,
                     onClearLogClick = { viewModel.onClearLogClick() },
                     onClearTasksClick = { viewModel.onClearTasksClick() },
                     onClearWorkersClick = { viewModel.onClearWorkersClick() },
